@@ -1401,7 +1401,7 @@
             }
 
             // websocket
-            var ws = new WebSocket('ws://txw001-1007.rhcloud.com:8282');
+            var ws = new WebSocket('ws://192.168.20.144:8282');
             // 链接成功时
             ws.onopen = function(){
                 var uid = '{{$user.id}}';

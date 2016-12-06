@@ -1,0 +1,76 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+    <div class="panel admin-panel">
+          <div class="panel-head"><strong class="icon-reorder"> 查看积分</strong></div>
+
+            <div class="padding border-bottom">
+                <ul class="search" style="padding-left:10px;">
+                    <li>
+                        <input type="text" placeholder="请输入要搜索的用户 id" id="s-user-id" class="input" style="width:200px; line-height:17px;display:inline-block" />
+                        <a href="javascript:void(0)" class="button border-main icon-search" onclick="changeSearch()" > 搜索</a>
+                    </li>
+                </ul>
+            </div>
+
+        <div id="t">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th width="5%">ID</th>
+                    <th>用户名</th>
+                    <th>积分</th>
+                    <th width="250">操作</th>
+                </tr>
+
+                <volist name="list" id="data" key="k">
+                    <tr id="tr{{$data['id']}}">
+                        <td>{{$data['u_id']}}</td>
+                        <td>{{$data.name}}</td>
+                        <td>{{$data.suminte}}</td>
+                        <td>
+                            <div class="button-group">
+                                <a type="button" class="button border-main" href="{{:U('Admin/Integral/list/id/'.$data['u_id'])}}"><span class="icon-edit"></span>详情</a>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+
+                <!--分页部分-->
+                <tr>
+                    <td colspan="8">
+                        <div class="pagelist">{{$page}}</div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        // 搜索
+        function changeSearch() {
+            var u_id = $('#s-user-id').val();
+
+            // 判断输入的id是否时整数且大于0
+            if (u_id.trim() != '' && !(/^([\d+]?)+$/.test(u_id) && u_id > 0)) {
+                layer.alert('用户的id必须是大于0 的整数');
+                return;
+            }
+
+            if (u_id.trim() != '') {
+                $.ajax({
+                    type : 'post',
+                    url : "{{:U('/Admin/Integral/integralSearch')}}",
+                    data : {
+                        'user_id' : u_id
+                    },
+                    success : function($data) {
+                        $('#t').html($data);
+                    }
+                });
+            }
+        }
+    </script>
+</block>

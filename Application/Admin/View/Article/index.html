@@ -1,0 +1,113 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+        <div class="panel admin-panel">
+            <div class="panel-head"><strong class="icon-reorder"> {{$title}}</strong></div>
+            <div class="padding border-bottom">
+                <ul class="search" style="padding-left:10px;">
+                    <li>搜索：</li>
+                    <li>
+                        <input type="text" placeholder="请输入要搜索的文章 id" id="s-art-id" class="input" style="width:250px; line-height:17px;display:inline-block" />
+                        <input type="text" placeholder="请输入要搜索的用户 id" id="s-user-id" class="input" style="width:250px; line-height:17px;display:inline-block" />
+                        <a href="javascript:void(0)" class="button border-main icon-search" onclick="changeSearch()" > 搜索</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="t">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th width="100" style="text-align:left; padding-left:20px;">文章编号</th>
+                    <th width="15%">用户ID</th>
+                    <th width="15%">用户名</th>
+                    <th width="10%">权限</th>
+                    <th>转自用户</th>
+                    <th width="15%">发布时间</th>
+                    <th width="250">操作</th>
+                </tr>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td style="text-align:left; padding-left:20px;">{{$vo.id}}</td>
+                        <td>{{$vo.u_id}}</td>
+                        <td>{{$vo.username1}}</td>
+                        <td>
+                            <if condition="$vo.privacy eq '0'">公开
+                                <elseif condition="$vo.privacy eq '1'" />好友可见
+                                <else />仅自己可见
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="$vo.username2 eq ''">{{$vo.username1}}
+                                <else />{{$vo.username2}}
+                            </if>
+                        </td>
+                        <td>{{$vo.time|date='Y-m-d',###}}</td>
+                        <td>
+                            <div class="button-group">
+                                <a class="button border-main" href="{{:U('info',array('id'=>$vo['id']))}}""><span class="icon-edit"></span> 详情</a>
+                                <a class="button border-red" href="{{:U('del',array('id'=>$vo['id']))}}"><span class="icon-trash-o"></span>删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+                <tr>
+                    <td colspan="7">
+                        <div class="pagelist">{{$page}}</div>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+</block>
+
+<block name="script">
+    <script>
+        function changeSearch() {
+            var u_id = $('#s-user-id').val();
+            var art_id = $('#s-art-id').val();
+
+            // 判断输入的id是否时整数且大于0
+            if (u_id.trim() != '' && !(/^([\d+]?)+$/.test(u_id) && u_id > 0)) {
+                layer.alert('用户的id必须是大于0 的整数');
+                return;
+            }
+
+            if (art_id.trim() != '' && !(/^([\d+]?)+$/.test(art_id) && art_id > 0)) {
+                layer.alert('文章的id必须是大于0 的整数');
+                return;
+            }
+
+            if (u_id.trim() != '' || art_id.trim() != '') {
+                $.ajax({
+                    type : 'post',
+                    url : "{{:U('/Admin/Article/articleSearch')}}",
+                    data : {
+                        'id' : art_id,
+                        'u_id' : u_id
+                    },
+                    success : function($data) {
+                        $('#t').html($data);
+                    }
+                });
+            }
+        }
+
+        function goSearch(url) {
+            $.ajax({
+                type : 'get',
+                url : url,
+                success : function($data) {
+                    $('#t').html($data);
+                }
+            });
+        }
+    </script>
+    <if condition="$success eq 1">
+        <script>layer.alert('删除成功！', {icon: 6},function(index){
+            window.location.href="{{:U('Article/index')}}";
+        });</script>
+        <elseif condition="$success eq 2"/>
+        <script>layer.alert('删除失败', {icon: 5},function(index){
+            window.location.href="{{:U('Article/index')}}";
+        });</script>
+    </if>
+</block>

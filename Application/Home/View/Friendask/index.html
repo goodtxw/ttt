@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>好友列表</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_home_space.css">
+
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/register-guide-v7.css">
+    <link rel="stylesheet" type="text/css"
+          href="__PUBLIC__/home/css/page_upgrade-all-min.css">
+    <script src="__PUBLIC__/home/js/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/layer/layer.js" type="text/javascript"></script>
+    <script type="text/javascript" async="" src="__PUBLIC__/home/js/scrollbar.js"
+            data-module="ui/scrollbar"></script>
+</head>
+
+<body class="nx-main980">
+<!--<div id="nxContainer" class="nx-container">-->
+<div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+    <div class="nx-main">
+        <div id="nxHeader" class="hd-wraper ">
+            <div class="hd-fixed-wraper cl">
+                <div class="hd-main">
+                    <h1 class="hd-logo"><a href="{{:U('Index/index')}}" title=""><img src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;"></a></h1>
+                    <div class="hd-nav cl">
+                        <div class="hd-search">
+                            <form method="">
+                                <input type="text" class="hd-search-input" placeholder="请输入搜索内容">
+                                <button type="" name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn"></button>
+                            </form>
+                        </div>
+                        <dl class="hd-account cl">
+                            <dt>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}">
+                                    <img src="__PUBLIC__/upload/{{$info.head_image}}" class="hd-avatar" width="30" height="30" alt="">
+                                </a>
+                            </dt>
+                            <dd><a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" title="balabala" class="hd-name">{{$info.name}}</a>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" target="_blank" class="hd-logindays">{{$date}}天</a>
+                            </dd>
+                        </dl>
+                        <div class="hd-account-action">
+                            <a href=""><span class="ui-icon ui-icon-setting" style="margin-top: 10px;"></span></a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-privacy "><a href="{{:U('Head/index')}}">修改头像</a></li>
+                                    <li class="nv-drop-setting"><a href="{{:U('Personaldata/index')}}">个人设置</a></li>
+                                    <li class="nv-drop-pay"><a href="javascript:void(0)">隐私筛选</a></li>
+                                    <li class="nv-account-sline"></li>
+                                    <li class="nv-drop-guide"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                                    <li class="nv-drop-exit"><a href="{{:U('Login/logout')}}">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="hd-account-action hd-account-action-vip">
+                            <a href="" class="account-more"><span><img src="__PUBLIC__/home/resources/u_pm.png"></span>
+                                <if condition="$remind eq 0">
+                                    <else /><span class="pm_n">{{$remind}}</span>
+                                </if>
+                            </a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)"><span class="grid_list_num"></span>消息</a></li>
+                                    <li class="nv-drop-skin"><a href="{{:U('Friendask/index')}}" target="_blank">提醒
+                                        <if condition="$remind eq 0">
+                                            <else />({{$remind}})
+                                        </if><span class="grid_list_num"></span></a></li>
+                                    <li class="nv-drop-skin"><a href="">新听众</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="bd-container ">
+        <div class="frame-nav-wrap">
+            <div id="frameFixedNav" class="frame-nav-fixed-wraper">
+                <div class="frame-nav-inner">
+                    <ul class="fd-nav-list clearfix">
+                        <li class="fd-nav-item"><a href="{{:U('Friendlist/index')}}">好友列表</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">查找好友</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">可能认识的人</a></li>
+                        <li class="fd-nav-item fd-nav-cur-item"><a href="">好友请求</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">好友分组</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="pt" class="bm cl"></div>
+
+        <div id="ct" class="ct2_a wp cl">
+            <div class="mn">
+                <div class="bm bw0">
+                    <h1 class="mt"><img alt="friend" src="" class="vm">
+                        好友请求
+                    </h1>
+                    <div class="tbmu">
+                        <div class="y">
+                            <a href="javascript:void(0)">批准全部申请</a><span class="pipe">|</span>
+                            <a href="javascript:void(0)">忽略所有好友申请(慎用)</a>
+                        </div>
+                        <span id="add_friend_div">请选定好友的申请进行批准或忽略</span>
+                    </div>
+                    <ul id="friend_ul">
+                        <li id="friend_tbody_55938">
+                            <volist name="request" id="v">
+                            <table cellpadding="0" cellspacing="0" class="tfm">
+                                <tbody>
+                                <tr>
+                                    <td width="140" height="140">
+                                        <div class="avt" style="height:140px;">
+                                            <a href="{{:U('Homepage/index',array('u_id'=>$v['id']))}}">
+                                                <img src="__PUBLIC__/upload/{{$v.head_image}}" style="margin-left:15px;width:100px;height:100px;">
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h4>
+                                            <a href="{{:U('Homepage/index',array('u_id'=>$v['id']))}}">{{$v.name}}</a>
+                                        </h4>
+                                        <div id="friend_55938">
+                                            <div class="quote">
+                                                <blockquote id="quote">{{$v.text}}</blockquote>
+                                            </div>
+                                            <p>{{$v.time|date='Y-m-d H:i:s',###}}</p>
+                                            <p class="mtm cl pns">
+                                                <a href="javascript:void(0)" onclick="agree('{{$v.id}}')" class="ptn z">批准申请　</a>
+                                                <a href="javascript:void(0)" onclick="refuse('{{$v.id}}')" class="z ptn">忽略</a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            </volist>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            function refuse(r_id){
+                $.ajax({
+                    url: "{{:U('/Home/Friendask/refuse')}}",
+                    type:'post',
+                    data: {
+                        'id': r_id
+                    },
+                    success:function($data){
+                        if($data == 1){
+                            layer.msg('已拒绝该请求');
+                            window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                        }
+                    }
+                });
+            }
+            function agree(r_id){
+                $.ajax({
+                    url: "{{:U('/Home/Friendask/agree')}}",
+                    type:'post',
+                    data: {
+                        'id': r_id
+                    },
+                    success:function($data){
+                        if($data == 1){
+                            layer.msg('添加好友成功');
+                            window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                        }else{
+                            layer.msg('添加失败');
+                        }
+                    }
+                });
+            }
+        </script>
+        <block name="include"><include file="Boot:index" /></block>
+    </div>
+
+    <div id="ft" class="wp cl"></div>
+    <div id="scrolltop" style="left: 1164px; visibility: hidden;">
+        <span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo(&#39;0&#39;,&#39;0&#39;)" class="scrolltopa"><b>返回顶部</b></a></span>
+    </div>
+    <script type="text/javascript">_attachEvent(window, 'scroll', function () {
+        showTopLink();
+    });
+    checkBlind();</script>
+    <div id="discuz_tips" style="display:none;"></div>
+    <script src="__PUBLIC__/js/discuz_tips.js" type="text/javascript"
+            charset="UTF-8"></script>
+</div>
+</body>
+</html>

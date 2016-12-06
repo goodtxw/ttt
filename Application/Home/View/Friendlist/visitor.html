@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>好友列表</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_home_space.css">
+
+    <script src="__PUBLIC__/home/js/common.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/home/js/home.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/register-guide-v7.css">
+    <link rel="stylesheet" type="text/css"
+          href="__PUBLIC__/home/css/page_upgrade-all-min.css">
+    <script src="__PUBLIC__/home/js/libs.js" type="text/javascript"></script>
+    <script>jQuery.noConflict();</script>
+    <script src="__PUBLIC__/home/js/base.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        if (typeof nx === 'undefined') {
+            var nx = {};
+        }
+        nx.user = {id: "1"};
+        var hiddenAd = isV7guide = true;
+        if (isV7guide) nx.webpager.fold = true;
+    </script>
+    <script type="text/javascript" async="" src="__PUBLIC__/home/js/scrollbar.js"
+            data-module="ui/scrollbar"></script>
+</head>
+
+<body class="nx-main980">
+<div id="fixedLayer" style="width: 1349px;"></div>
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<!--<div id="nxContainer" class="nx-container">-->
+<div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+
+    <div class="nx-main">
+
+        <div id="nxHeader" class="hd-wraper ">
+            <div class="hd-fixed-wraper cl" style="width: 1349px;">
+                <div class="hd-main">
+                    <h1 class="hd-logo"><a href="#" title=""><img
+                            src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;"></a></h1>
+                    <div class="hd-nav cl" style="opacity: 1; display: block;">
+                        <div class="hd-search">
+                            <form method="post" onsubmit="" action="#">
+                                <input type="text" name="srchtxt" class="hd-search-input" autocomplete="off" placeholder="请输入搜索内容">
+                                <button name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn"></button>
+                            </form>
+                        </div>
+                        <dl class="hd-account cl">
+                            <dt>
+                                <a href="javascript:void(0)">
+                                    <img src="" class="hd-avatar" width="30" height="30" alt="balabala">
+                                </a>
+                            </dt>
+                            <dd><a href="javascript:void(0)" title="balabala" class="hd-name">balabala</a>
+                                <a href="javascript:void(0)" target="_blank" class="hd-logindays">0天</a>
+                            </dd>
+                        </dl>
+                        <div class="hd-account-action">
+                            <a href="javascript:void(0)" class="account-more"><span
+                                    class="ui-icon ui-icon-setting"></span></a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-privacy "><a href="{{:U('Head/index')}}">修改头像</a></li>
+                                    <li class="nv-drop-setting"><a href="{{:U('Personaldata/index')}}">个人设置</a></li>
+                                    <li class="nv-drop-pay"><a href="javascript:void(0)">隐私筛选</a></li>
+                                    <li class="nv-account-sline"></li>
+                                    <li class="nv-drop-guide"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                                    <li class="nv-drop-exit"><a href="{{:U('Login/logout')}}">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="hd-account-action hd-account-action-vip">
+                            <a href="javascript:void(0)" class="account-more"><span><img
+                                    src="__PUBLIC__/home/resources/u_pm.png"></span></a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)" target="_blank"><span class="grid_list_num"></span>消息</a></li>
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)" target="_blank">提醒<span class="grid_list_num"></span></a></li>
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)">新听众</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="bd-container ">
+        <div class="frame-nav-wrap">
+            <div id="frameFixedNav" class="frame-nav-fixed-wraper" style="width: 1349px; top: 50px;">
+                <div class="frame-nav-inner">
+                    <ul class="fd-nav-list clearfix">
+                        <li class="fd-nav-item fd-nav-cur-item"><a href="#">好友列表</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">查找好友</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">可能认识的人</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Friendask/index')}}">好友请求</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">好友分组</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <style>.pns .pn {
+            margin: 0px;
+            padding: 0px 12px;
+        }</style>
+        <div id="pt" class="bm cl"></div>
+
+        <style id="diy_style" type="text/css"></style>
+        <div class="wp">
+            <!--[diy=diy1]-->
+            <div id="diy1" class="area"></div><!--[/diy]-->
+        </div>
+        <div id="ct" class="ct2_a wp cl">
+            <ul class="tb cl">
+                <li><a href="{{:U('Friendlist/index')}}">全部好友列表</a></li>
+                <li><a href="javascript:void(0)">当前在线的好友</a></li>
+                <li><a href="javascript:void(0)">在线成员</a></li>
+                <li><a href="javascript:void(0)">就在我附近的朋友</a></li>
+                <li class="a"><a href="javascript:void(0)">我的访客</a></li>
+                <li><a href="javascript:void(0)">我的足迹</a></li>
+                <li><a href="javascript:void(0)">我的黑名单</a></li>
+            </ul>
+            <div class="mn">
+                <div class="bm bw0">
+                    <div class="tbmu cl">
+                        <p class="z">
+                            他们拜访过你，回访一下吧
+                        </p>
+                    </div>
+                        <div>
+                            <div id="friend_ul">
+                                <ul class="buddy cl">
+                                    <li id="friend_53141_li" style="margin-right: 55px;">
+                                        <div class="avt">
+                                            <a href="" c="1" mid="card_6760"><img src=""></a>
+                                        </div>
+                                        <h4>
+                                            <a href="">贾小桃</a><span id="friend_note_53141" class="note xw0" title=""></span>
+                                        </h4>
+                                        <p class="maxh"></p>
+                                        <div class="xg1">
+                                            <a href="" id="a_followmod_53141" onclick="">取消收听</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="interaction_53141" onmouseover="showMenu(this.id);" class="showmenu">互动</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="opfrd_53141" onmouseover="showMenu(this.id);" class="showmenu">管理</a>
+                                        </div>
+                                        <div id="opfrd_53141_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" id="friend_group_53141" onclick="" title="好友分组">加为好友</a></p>
+                                            <p><a href="" id="a_ignore_53141" onclick="" title="删除">删除</a></p>
+                                        </div>
+                                        <div id="interaction_53141_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" target="_blank" title="查看资料">查看资料</a></p>
+                                            <p><a href="" title="去串个门">去串个门</a></p>
+                                            <p><a href="" id="a_poke_53141" onclick="" title="打个招呼">打个招呼</a></p>
+                                            <p><a href="" id="a_sendpm_53141" onclick="" title="发送消息">发送消息</a></p>
+                                        </div>
+                                    </li>
+                                    <li id="friend_53614_li" style="margin-right: 55px;">
+                                        <div class="avt">
+                                            <a href="" c="1" mid="card_5337">
+                                                <img src="">
+                                            </a>
+                                        </div>
+                                        <h4>
+                                            <a href="">慕容香凝</a><span id="friend_note_53614" class="note xw0" title=""></span>
+                                        </h4>
+                                        <p class="maxh"></p>
+                                        <div class="xg1">
+                                            <a href="" id="a_followmod_53614" onclick="">取消收听</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="interaction_53614" onmouseover="showMenu(this.id);" class="showmenu">互动</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="opfrd_53614" onmouseover="showMenu(this.id);" class="showmenu">管理</a>
+                                        </div>
+                                        <div id="opfrd_53614_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" id="friend_group_53614" onclick="" title="好友分组">加为好友</a></p>
+                                            <p><a href="" id="a_ignore_53614" onclick="" title="删除">删除</a></p>
+                                        </div>
+                                        <div id="interaction_53614_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" target="_blank" title="查看资料">查看资料</a></p>
+                                            <p><a href="" target="_blank" title="去串个门">去串个门</a></p>
+                                            <p><a href="" id="a_poke_53614" onclick="" title="打个招呼">打个招呼</a></p>
+                                            <p><a href="" id="a_sendpm_53614" onclick="" title="发送消息">发送消息</a></p>
+                                        </div>
+                                    </li>
+                                    <li id="friend_5314_li">
+                                        <div class="avt">
+                                            <a href="" c="1" mid="card_6760">
+                                                <img src="">
+                                            </a>
+                                        </div>
+                                        <h4>
+                                            <a href="">贾小桃</a><span id="friend_note_5314" class="note xw0" title=""></span>
+                                        </h4>
+                                        <p class="maxh"></p>
+                                        <div class="xg1">
+                                            <a href="" id="a_followmod_5314" onclick="">取消收听</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="interaction_5314" onmouseover="showMenu(this.id);" class="showmenu">互动</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="opfrd_5314" onmouseover="showMenu(this.id);" class="showmenu">管理</a>
+                                        </div>
+                                        <div id="opfrd_5314_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" id="friend_group_5314" onclick="" title="好友分组">加为好友</a></p>
+                                            <p><a href="" id="a_ignore_5314" onclick="" title="删除">删除</a></p>
+                                        </div>
+                                        <div id="interaction_5314_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" target="_blank" title="查看资料">查看资料</a></p>
+                                            <p><a href="" title="去串个门">去串个门</a></p>
+                                            <p><a href="" id="a_poke_5314" onclick="" title="打个招呼">打个招呼</a></p>
+                                            <p><a href="" id="a_sendpm_5314" onclick="" title="发送消息">发送消息</a></p>
+                                        </div>
+                                    </li>
+                                    <li id="friend_531_li">
+                                        <div class="avt">
+                                            <a href="" c="1" mid="card_6760">
+                                                <img src="">
+                                            </a>
+                                        </div>
+                                        <h4>
+                                            <a href="">贾小桃</a><span id="friend_note_531" class="note xw0" title=""></span>
+                                        </h4>
+                                        <p class="maxh"></p>
+                                        <div class="xg1">
+                                            <a href="" id="a_followmod_531" onclick="">取消收听</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="interaction_531" onmouseover="showMenu(this.id);" class="showmenu">互动</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:;" id="opfrd_531" onmouseover="showMenu(this.id);" class="showmenu">管理</a>
+                                        </div>
+                                        <div id="opfrd_531_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" id="friend_group_531" onclick="" title="好友分组">加为好友</a></p>
+                                            <p><a href="" id="a_ignore_531" onclick="" title="删除">删除</a></p>
+                                        </div>
+                                        <div id="interaction_531_menu" class="p_pop" style="display: none; width: 80px;">
+                                            <p><a href="" target="_blank" title="查看资料">查看资料</a></p>
+                                            <p><a href="" title="去串个门">去串个门</a></p>
+                                            <p><a href="" id="a_poke_531" onclick="" title="打个招呼">打个招呼</a></p>
+                                            <p><a href="" id="a_sendpm_531" onclick="" title="发送消息">发送消息</a></p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <script type="text/javascript">
+                                function succeedhandle_followmod(url, msg, values) {
+                                    var fObj = $(values['from'] + values['fuid']);
+                                    if (values['type'] == 'add') {
+                                        fObj.innerHTML = '取消收听';
+                                        fObj.className = 'flw_btn_unfo';
+                                        fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&fuid=' + values['fuid'] + '&from=' + values['from'];
+                                    } else if (values['type'] == 'del') {
+                                        fObj.innerHTML = '收听TA';
+                                        fObj.className = 'flw_btn_fo';
+                                        fObj.href = 'home.php?mod=spacecp&ac=follow&op=add&hash=ca695fef&fuid=' + values['fuid'] + '&from=' + values['from'];
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <!--[diy=diycontentbottom]-->
+                <div id="diycontentbottom" class="area"></div><!--[/diy]-->
+            </div>
+
+
+        </div>
+
+        <div class="wp mtn">
+            <!--[diy=diy3]-->
+            <div id="diy3" class="area"></div><!--[/diy]-->
+        </div>
+    <block name="include"><include file="Boot:index" /></block>
+    </div>
+
+    <div id="ft" class="wp cl"></div>
+    <div id="scrolltop" style="left: 1164px; visibility: hidden;">
+        <span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo(&#39;0&#39;,&#39;0&#39;)" class="scrolltopa"><b>返回顶部</b></a></span>
+    </div>
+    <script type="text/javascript">_attachEvent(window, 'scroll', function () {
+        showTopLink();
+    });
+    checkBlind();</script>
+    <div id="discuz_tips" style="display:none;"></div>
+    <script src="__PUBLIC__/js/discuz_tips.js" type="text/javascript"
+            charset="UTF-8"></script>
+</div>
+
+
+</body>
+</html>

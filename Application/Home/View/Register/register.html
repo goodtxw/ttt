@@ -1,0 +1,83 @@
+<extend name="layouts/layout" />
+
+<block name="css">
+    <link href="__PUBLIC__/bs/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/animate.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/style.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/login.min.css" rel="stylesheet">
+</block>
+
+<block name="content">
+    <body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1>[ 人人 ]</h1>
+                    </div>
+                    <div class="m-b"></div>
+                    <h4>欢迎使用 <strong>人人网社交平台</strong></h4>
+                    <ul class="m-b">
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 相互交流</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 分享信息</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 自创内容</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 玩游戏，听音乐</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 参与 团购</li>
+                    </ul>
+                    <strong>已有账号？ <a href="{{:U('Login/login')}}">立即登录&raquo;</a></strong>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <form method="post" action="{{:U('Register/doregister')}}">
+                    <h4 class="no-margins">注册：</h4>
+                    <input type="text" class="form-control uname" name="email" placeholder="邮箱地址" />
+                    <input type="password" class="form-control pword m-b" name="password" placeholder="密码长度为6-10位" />
+                    <div class="form-control" style="padding: 0">
+                        <input type="text" style="border: 0;height: 32px;color:black;" class="col-xs-7" name="code" placeholder="验证码"/>
+                        <!--<img src="{{:U('yzm')}}"  class="col-xs-5" style="padding: 0;height: 32px;cursor:pointer;" title="点击刷新"  onclick="this.src=this.src+'?'" >-->
+                        <a href="javascript:void(0)" onclick="email_yzm()" class="col-xs-5 email_yzm" style="padding: 0;height: 32px;line-height:32px;text-align: center;cursor:pointer;border:1px solid rgba(101, 44, 75, 0.22);">获取验证码</a>
+                    </div>
+                    <input type="submit" class="btn btn-success btn-block" value="注册">
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 2016 All Rights Reserved. rr
+            </div>
+        </div>
+    </div>
+    </body>
+</block>
+<block name="script">
+    <script>
+        function email_yzm(){
+            $.ajax({
+                url: "{{:U('/Home/EmailCheck/config')}}",
+                type:'post'
+            });
+        }
+    </script>
+    <script>
+        if(window.top!==window.self){window.top.location=window.location};
+    </script>
+    <if condition="$error eq 1">
+        <script>layer.msg('请将注册信息填写完整');</script>
+    <elseif condition="$error eq 2"/>
+        <script>layer.msg('该邮箱已被注册');</script>
+    <elseif condition="$error eq 3"/>
+        <script>layer.msg('密码格式不正确');</script>
+    <elseif condition="$error eq 4"/>
+        <script>layer.msg('邮箱格式不正确');</script>
+    <elseif condition="$error eq 5"/>
+        <script>layer.msg('请输入正确的验证码');</script>
+    <elseif condition="$error eq 6"/>
+        <script>layer.msg('注册失败');</script>
+    <elseif condition="$error eq 7"/>
+        <script>layer.msg('注册成功！正在跳转。。。',function(index){
+            window.setTimeout(window.location.href="{{:U('Login/login')}}",2000);
+        });</script>
+    </if>
+</block>
+</html>

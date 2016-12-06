@@ -1,0 +1,32 @@
+<table class="table table-hover text-center">
+    <tr>
+        <th width="10%">ID</th>
+        <th width="20%">用户名</th>
+        <th width="50%">评论内容</th>
+        <th width="20%">操作</th>
+    </tr>
+
+
+    <volist name="list" id="data" key="k">
+        <tr id="tr{{$data['id']}}">
+            <td>{{$data['id']}}</td>
+            <td>{{$data.name}}</td>
+            <td>{{$data.content}}</td>
+            <td>
+                <div class="button-group">
+                    <a class="button border-red" href="javascript:void(0)" onclick="del('{{$data.id}}')"><span class="icon-trash-o"></span> 删除</a>
+                </div>
+            </td>
+        </tr>
+    </volist>
+
+    <!--分页部分-->
+    <tr>
+        <td colspan="4">
+            <div class="pagelist">
+                {{$page}}
+            </div>
+        </td>
+    </tr>
+</table>
+

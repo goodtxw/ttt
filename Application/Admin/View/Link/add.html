@@ -1,0 +1,50 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+    <div class="panel admin-panel">
+        <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加新链接</strong></div>
+        <div class="body-content">
+            <form method="post" class="form-x" action="{{:U('Link/doadd')}}">
+                <div class="form-group">
+                    <div class="label">
+                        <label>网站名：</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" value="" name="webname" data-validate="required:请输入网站名" />
+                        <div class="tips"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>链接：</label>
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input w50" value="" name="url" data-validate="required:请输入链接" />
+                        <div class="tips"></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+                <div class="form-group">
+                    <div class="label">
+                        <label></label>
+                    </div>
+                    <div class="field">
+                        <input type="submit" class="button bg-main icon-check-square-o" value="提交">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <if condition="$success eq 1">
+        <script>layer.alert('恭喜您，添加成功！', {icon: 6},function(index){
+            window.location.href="{{:U('Link/index')}}";
+        });</script>
+        <elseif condition="$success eq 2"/>
+        <script>layer.alert('添加失败', {icon: 5},function(index){
+            window.location.href="{{:U('Link/add')}}";
+        });</script>
+    </if>
+</block>

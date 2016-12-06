@@ -1,0 +1,88 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder"> 相册详情</strong></div>
+        <div class="padding border-bottom">
+            <a href="{{:U('/Admin/Album/index')}}" class="button border-blue"><span class="icon-mail-reply (alias)"></span> 返回</a>
+        </div>
+
+        <div id="t">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th width="120">ID</th>
+                    <th>图片</th>
+                    <th>用户</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+
+                <volist name="list" id="data" key="k">
+                    <tr>
+                        <td>{{$data.id}}</td>
+                        <td><img id="img{{$data.id}}" src="__PUBLIC__/upload/{{$data.name}}" width="120" height="70" alt=""></td>
+                        <td>{{$data.username}}</td>
+                        <td>{{$data.time|date='Y-m-d',###}}</td>
+                        <td>
+                            <div class="button-group">
+                                <if condition="$data.ban eq 0">
+                                    <a class="button border-red" href="javascript:" onclick="huan('{{$data.id}}')" id="a{{$data.id}}">
+                                        <span class="icon-ban"></span> 违规封禁
+                                    </a>
+                                    <else/>
+                                    <a class="button border-red" href="javascript:" onclick="huan('{{$data.id}}')" disabled="">
+                                        <span class="icon-minus-circle"></span> 已封禁
+                                    </a>
+                                </if>
+
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+
+                <!--分页部分-->
+                <tr>
+                    <td colspan="8">
+                        <div class="pagelist">{{$page}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        function huan(id){
+            $.ajax({
+                type : 'post',
+                url : "{{:U('/Admin/Album/ban')}}",
+                data : {
+                    'imageId' : id
+                },
+                success : function($data) {
+                    var re = eval($data);
+                    if (re[0] == 0) {
+                        $('#img'+id).attr('src', re[1]);
+                        $('#a'+id).html("<span class='icon-minus-circle'></span> 已封禁");
+                        $('#a'+id).attr('disabled', 'disabled');
+                        layer.alert('禁用图片成功')
+                    }else {
+                        layer.alert(re[1], {icon: 5});
+                    }
+                }
+            });
+        }
+
+        function goSearch(url) {
+            $.ajax({
+                type : 'get',
+                url : url,
+                success : function($data) {
+                    $('#t').html($data);
+                }
+            });
+        }
+    </script>
+</block>

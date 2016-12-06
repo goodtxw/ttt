@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>个人资料</title>
+
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_home_spacecp.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/register-guide-v7.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/page_upgrade-all-min.css">
+
+    <script>jQuery.noConflict();</script>
+    <script src="__PUBLIC__/home/js/base.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/home/js/area.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/home/js/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/layer/layer.js" type="text/javascript"></script>
+    <script>
+        function ziliao(obj){
+            var ziliao = document.getElementById('ziliao');
+            var jiaoyu = document.getElementById('jiaoyu');
+            ziliao.style.display = 'block';
+            jiaoyu.style.display = 'none';
+            obj.parentNode.className = 'a';
+            obj.parentNode.nextSibling.nextSibling.className = '';
+        }
+        function jiaoyu(obj){
+            var ziliao = document.getElementById('ziliao');
+            var jiaoyu = document.getElementById('jiaoyu');
+            ziliao.style.display = 'none';
+            jiaoyu.style.display = 'block';
+            obj.parentNode.className = 'a';
+            obj.parentNode.previousSibling.previousSibling.className = '';
+        }
+    </script>
+    <script type="text/javascript" charset="UTF-8" src="__PUBLIC__/home/js/ajax.js"></script>
+    <script type="text/javascript" async="" src="__PUBLIC__/home/js/scrollbar.js" data-module="ui/scrollbar"></script>
+</head>
+
+<body class="nx-main980">
+<div id="fixedLayer" style="width: 1349px;"></div>
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<!--<div id="nxContainer" class="nx-container">-->
+<div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+
+    <div class="nx-main">
+
+        <div id="nxHeader" class="hd-wraper ">
+            <div class="hd-fixed-wraper cl" >
+                <div class="hd-main">
+                    <h1 class="hd-logo"><a href="{{:U('Index/index')}}" title=""><img src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;"></a></h1>
+                    <div class="hd-nav cl" style="opacity: 1; display: block;">
+                        <!--搜索start-->
+                        <div class="hd-search">
+                            <form id="scbar_form" method="post" autocomplete="off" onsubmit="" action="" target="_blank">
+                                <input type="text" name="srchtxt" class="hd-search-input" autocomplete="off" placeholder="请输入搜索内容">
+                                <button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn" value="true"></button>
+                            </form>
+                        </div>
+                        <!--搜索end-->
+                        <!--头像，用户名，登录天数start-->
+                        <dl class="hd-account cl">
+                            <dt>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}"><img src="__PUBLIC__/upload/{{$info.head_image}}" class="hd-avatar" width="30" height="30" alt="{{$info.name}}"></a>
+                            </dt>
+                            <dd><a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" title="" class="hd-name">{{$info.name}}</a>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" target="_blank" class="hd-logindays">{{$date}}天</a>
+                            </dd>
+                        </dl>
+                        <!--头像，用户名，登录天数end-->
+                        <!--设置 start-->
+                        <div class="hd-account-action">
+                            <a href="javascript:void(0)" class="account-more"><span class="ui-icon ui-icon-setting"></span></a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-privacy "><a href="{{:U('Head/index')}}">修改头像</a></li>
+                                    <li class="nv-drop-setting"><a href="{{:U('Personaldata/index')}}">个人设置</a></li>
+                                    <li class="nv-drop-pay"><a href="javascript:void(0)">隐私筛选</a></li>
+                                    <li class="nv-account-sline"></li>
+                                    <li class="nv-drop-guide"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                                    <li class="nv-drop-exit"><a href="{{:U('Login/logout')}}">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--设置 end-->
+                        <!--消息start-->
+                        <div class="hd-account-action hd-account-action-vip">
+                            <a href="" class="account-more"><span><img src="__PUBLIC__/home/resources/u_pm.png"></span>
+                                <if condition="$remind eq 0">
+                                    <else /><span class="pm_n">{{$remind}}</span>
+                                </if>
+                            </a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)"><span class="grid_list_num"></span>消息</a></li>
+                                    <li class="nv-drop-skin"><a href="{{:U('Friendask/index')}}">提醒
+                                        <if condition="$remind eq 0">
+                                            <else />({{$remind}})
+                                        </if><span class="grid_list_num"></span></a></li>
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)">新听众</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--消息end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bd-container ">
+        <div class="frame-nav-wrap">
+            <div id="frameFixedNav" class="frame-nav-fixed-wraper" style="top: 50px;">
+                <div class="frame-nav-inner">
+                    <ul class="fd-nav-list clearfix">
+                        <li class="fd-nav-item"><a href="{{:U('Head/index')}}">修改头像</a></li>
+                        <li class="fd-nav-item fd-nav-cur-item"><a href="javascript:void(0)">个人资料</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">积分</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">用户组</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">隐私筛选</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Friendlist/index')}}">我的好友</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Album/index')}}">我的相册</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="pt" class="bm cl"></div>
+        <div id="ct" class="ct2_a wp cl">
+            <ul class="tb cl">
+                <li class="a"><a href="javascript:void(0)" onclick="ziliao(this)">基本资料</a></li>
+                <li><a href="javascript:void(0)" onclick="jiaoyu(this)">教育情况</a></li>
+                <li><a href="javascript:void(0)">联系方式</a></li>
+                <li><a href="javascript:void(0)">工作情况</a></li>
+                <li><a href="javascript:void(0)">个人信息</a></li>
+                <li><a href="javascript:void(0)">更改用户名</a></li>
+            </ul>
+            <div class="mn">
+
+                <!--个人资料start-->
+                <div id="ziliao" class="bm bw0">
+                    <iframe id="frame_profile" name="frame_profile" style="display: none" src=""></iframe>
+                    <!--表单内容start-->
+                    <form action="{{:U('Personaldata/update')}}" method="post">
+                        <input type="hidden" value="{{$info.id}}" name="id">
+                        <table cellspacing="0" cellpadding="0" class="tfm" id="profilelist">
+                            <tbody>
+                            <tr id="tr_realname">
+                                <th id="th_realname">用户名</th>
+                                <td id="td_realname">
+                                    <input type="text" name="name" id="realname" class="px" value="{{$info.name}}" tabindex="1">
+                                    <div class="rq mtn" id="showerror_realname"></div>
+                                    <p class="d"></p>
+                                </td>
+                                <td class="p"></td>
+                            </tr>
+                            <tr id="tr_gender">
+                                <th id="th_gender">性别</th>
+                                <td id="td_gender">
+                                    <select name="sex" id="gender" class="ps" tabindex="1">
+                                        <option value="0" <if condition="$info.sex eq 0">selected="selected"</if>>男</option>
+                                        <option value="1" <if condition="$info.sex eq 1">selected="selected"</if>>女</option>
+                                    </select>
+                                    <div class="rq mtn" id="showerror_gender"></div>
+                                    <p class="d"></p></td>
+                                <td class="p"></td>
+                            </tr>
+                            <tr id="tr_realname">
+                                <th id="th_realname">生日</th>
+                                <td id="td_realname">
+                                    <input type="text" name="birthday" class="px" value="{{$info.birthday}}" tabindex="1">
+                                    <div class="rq mtn" id="showerror_realname"></div>
+                                    <p class="d"></p>
+                                </td>
+                                <td class="p"></td>
+                            </tr>
+                            <tr id="tr_realname">
+                                <th id="th_realname">家庭住址</th>
+                                <td id="td_realname">
+                                    <input type="text" name="address" class="px" value="{{$info.address}}" tabindex="1">
+                                    <div class="rq mtn" id="showerror_realname"></div>
+                                    <p class="d"></p>
+                                </td>
+                                <td class="p"></td>
+                            </tr>
+                            <tr id="tr_realname">
+                                <th id="th_realname">手机号</th>
+                                <td id="td_realname">
+                                    <input type="text" name="tel" class="px" value="{{$info.tel}}" tabindex="1">
+                                    <div class="rq mtn" id="showerror_realname"></div>
+                                    <p class="d"></p>
+                                </td>
+                                <td class="p"></td>
+                            </tr>
+                            <tr id="tr_bloodtype">
+                                <th id="th_bloodtype">权限</th>
+                                <td class="">
+                                    <select name="privacy">
+                                        <option value="0" <if condition="$info.privacy eq 0">selected="selected"</if>>公开</option>
+                                        <option value="1" <if condition="$info.privacy eq 1">selected="selected"</if>>好友可见</option>
+                                        <option value="2" <if condition="$info.privacy eq 2">selected="selected"</if>>仅自己可见</option>
+                                    </select>
+                                </td>
+                                <td id="td_bloodtype">
+                                    <div class="rq mtn" id="showerror_bloodtype"></div>
+                                    <p class="d"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <td colspan="2">
+                                    <button type="submit" id="profilesubmitbtn" class="pn pnc"><strong>保存</strong></button>
+                                    <span id="submit_result" class="rq"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <!--表单内容end-->
+                </div>
+                <!--个人资料end-->
+                <if condition="$error eq 1">
+                    <script>layer.msg('用户名不能为空')</script>
+                    <elseif condition="$error eq 2" />
+                    <script>layer.msg('保存成功')</script>
+                    <elseif condition="$error eq 3" />
+                    <script>layer.msg('保存失败')</script>
+                    <elseif condition="$error eq 4" />
+                    <script>layer.msg('手机号格式不正确')</script>
+                </if>
+                <!--学校信息start-->
+                <div id="jiaoyu" class="bm bw0" style="display:none">
+                    <form action="{{:U('Personaldata/school')}}" method="post">
+                        <input type="hidden" value="{{$school.id}}" name="id" id="school_id">
+                        <div id="t">
+                            <table cellspacing="0" cellpadding="0" class="tfm" id="profilelist">
+                                <tbody>
+                                <tr id="tr_gender">
+                                    <th id="th_gender">初中</th>
+                                    <td id="td_gender">
+                                        <select name="middle_school" id="gender1" class="ps" tabindex="1">
+                                            <option value="">请选择学校</option>
+                                            <option value="上海市第一初中" <if condition="$school.middle_school eq '上海市第一初中'">selected="selected"</if>>上海市第一初中</option>
+                                            <option value="上海市第二初中" <if condition="$school.middle_school eq '上海市第二初中'">selected="selected"</if>>上海市第二初中</option>
+                                            <option value="上海市第三初中" <if condition="$school.middle_school eq '上海市第三初中'">selected="selected"</if>>上海市第三初中</option>
+                                            <option value="上海市第四初中" <if condition="$school.middle_school eq '上海市第四初中'">selected="selected"</if>>上海市第四初中</option>
+                                        </select>
+                                        <select name="middle_start" id="gender2" class="ps" tabindex="1">
+                                            <option value="">请选择入学年份</option>
+                                            <option value="2010" <if condition="$school.middle_start eq '2010'">selected="selected"</if>>2010</option>
+                                            <option value="2009" <if condition="$school.middle_start eq '2009'">selected="selected"</if>>2009</option>
+                                            <option value="2008" <if condition="$school.middle_start eq '2008'">selected="selected"</if>>2008</option>
+                                            <option value="2007" <if condition="$school.middle_start eq '2007'">selected="selected"</if>>2007</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="tr_gender">
+                                    <th id="th_gender">高中</th>
+                                    <td id="td_gender">
+                                        <select name="high_school" id="gender3" class="ps" tabindex="1">
+                                            <option value="">请选择学校</option>
+                                            <option value="上海市第一高中" <if condition="$school.high_school eq '上海市第一高中'">selected="selected"</if>>上海市第一高中</option>
+                                            <option value="上海市第二高中" <if condition="$school.high_school eq '上海市第二高中'">selected="selected"</if>>上海市第二高中</option>
+                                            <option value="上海市第三高中" <if condition="$school.high_school eq '上海市第三高中'">selected="selected"</if>>上海市第三高中</option>
+                                            <option value="上海市第四高中" <if condition="$school.high_school eq '上海市第四高中'">selected="selected"</if>>上海市第四高中</option>
+                                        </select>
+                                        <select name="high_start" id="gender4" class="ps" tabindex="1">
+                                            <option value="">请选择入学年份</option>
+                                            <option value="2013" <if condition="$school.high_start eq '2013'">selected="selected"</if>>2013</option>
+                                            <option value="2012" <if condition="$school.high_start eq '2012'">selected="selected"</if>>2012</option>
+                                            <option value="2011" <if condition="$school.high_start eq '2011'">selected="selected"</if>>2011</option>
+                                            <option value="2010" <if condition="$school.high_start eq '2010'">selected="selected"</if>>2010</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="tr_gender">
+                                    <th id="th_gender">大学</th>
+                                    <td id="td_gender">
+                                        <select name="college" id="gender5" class="ps" tabindex="1">
+                                            <option value="">请选择学校</option>
+                                            <option value="常熟理工学院" <if condition="$school.college eq '常熟理工学院'">selected="selected"</if>>常熟理工学院</option>
+                                            <option value="北京大学" <if condition="$school.college eq '北京大学'">selected="selected"</if>>北京大学</option>
+                                            <option value="清华大学" <if condition="$school.college eq '清华大学'">selected="selected"</if>>清华大学</option>
+                                            <option value="复旦大学" <if condition="$school.college eq '复旦大学'">selected="selected"</if>>复旦大学</option>
+                                        </select>
+                                        <select name="college_start" id="gender6" class="ps" tabindex="1">
+                                            <option value="">请选择入学年份</option>
+                                            <option value="2016" <if condition="$school.college_start eq '2016'">selected="selected"</if>>2016</option>
+                                            <option value="2015" <if condition="$school.college_start eq '2015'">selected="selected"</if>>2015</option>
+                                            <option value="2014" <if condition="$school.college_start eq '2014'">selected="selected"</if>>2014</option>
+                                            <option value="2013" <if condition="$school.college_start eq '2013'">selected="selected"</if>>2013</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <td colspan="2">
+                                        <button type="submit" id="" class="pn pnc"><strong>保存</strong></button>
+                                        <span id="submit_result" class="rq"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <if condition="$success eq 1">
+                                <script>layer.msg('保存成功')</script>
+                            <elseif condition="$success eq 2" />
+                                <script>layer.msg('添加成功')</script>
+                            </if>
+                        </div>
+                    </form>
+                </div>
+                <!--学校信息end-->
+
+            </div>
+            <div class="appl"><!-- home/spacecp_footer --></div>
+        </div>
+        <!--底部start-->
+        <block name="include"><include file="Boot:index" /></block>
+        <!--底部end-->
+    </div>
+    <div id="ft" class="wp cl"></div>
+    <script src="" type="text/javascript"></script>
+    <div class="focus plugin" id="ip_notice"></div>
+    <script type="text/javascript">ipNotice();</script>
+    <script type="text/javascript">_attachEvent(window, 'scroll', function () {
+        showTopLink();
+    });
+    checkBlind();</script>
+    <!--<div id="discuz_tips" style="display:none;"></div>-->
+    <script src="__PUBLIC__/home/js/discuz_tips.js" type="text/javascript" charset="UTF-8"></script>
+</div>
+</body>
+</html>

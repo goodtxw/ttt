@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <title>人人网</title>
+        <link href="__PUBLIC__/bs/css/bootstrap.min.css" rel="stylesheet">
+        <link href="__PUBLIC__/home/fileupload/css/fileinput.css" medial="all" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_forum_forumdisplay.css">
+        <!--<script src="__PUBLIC__/home/js/common.js" type="text/javascript"></script>-->
+        <!--<script src="__PUBLIC__/home/js/forum.js" type="text/javascript"></script>-->
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+
+        <script src="__PUBLIC__/bs/js/jquery-3.0.0.min.js"></script>
+        <script src="__PUBLIC__/home/fileupload/js/fileinput.js"></script>
+        <script src="__PUBLIC__/home/fileupload/js/locales/zh.js"></script>
+        <script src="__PUBLIC__/bs/js/bootstrap.min.js"></script>
+        <script src="__PUBLIC__/layer/layer.js"></script>
+        <link href="__PUBLIC__/home/css/font-awesome.min93e3.css" rel="stylesheet">
+        <!--<script src="__PUBLIC__/home/js/libs.js" type="text/javascript"></script>-->
+        <!--<script src="__PUBLIC__/home/js/base.js" type="text/javascript"></script>-->
+        <style>
+            .conte-image li{
+                float: left;
+                margin-left: 10px;
+                padding-top: 5px;
+            }
+            .conte-image li:first-child{
+                margin-left: 0px;
+            }
+        </style>
+    </head>
+
+    <body class="nx-main760">
+        <div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+            <div class="nx-main">
+
+                <div id="nxHeader" class="hd-wraper ">
+                    <div class="hd-fixed-wraper cl" >
+                        <div class="hd-main">
+
+                            <!--顶部logo-->
+                            <h1 class="hd-logo">
+                                <a href="{{:U('Index/index')}}" title="人人网_拓宽你的圈子,打开你的世界">
+                                    <img src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;">
+                                </a>
+                            </h1>
+                            <div class="hd-nav cl">
+                                <!--顶部搜索-->
+                                <div class="hd-search">
+                                    <form id="scbar_form" method="post" autocomplete="off" onsubmit="searchFocus()" action="" target="_blank">
+                                        <input type="text" name="srchtxt" id="ttt-search" class="hd-search-input" autocomplete="off"  placeholder="请输入搜索内容" style="height: 32px;width: 500px">
+                                        <button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn" value="true"></button>
+                                    </form>
+                                </div>
+
+                                <style>
+                                    #ttt-search-list {
+                                        position: absolute;
+                                        width: 500px;
+                                        height: 200px;
+                                        background-color: #fff;
+                                        top:43px;
+                                        display: none;
+                                    }
+                                    #ttt-search-list ul li{
+                                        border-bottom: 1px solid #dedede;
+                                        padding-top: 5px;
+                                        padding-bottom: 5px;
+                                        padding-left: 10px;
+                                    }
+                                    #ttt-search-list ul li:hover{
+                                        background-color: #EBEBEB;
+                                        cursor: pointer;
+                                    }
+                                    #ttt-search-list ul li span {
+                                        font-size: 15px;
+                                        margin-left: 10px;
+                                    }
+                                    #ttt-search-list ul li a{
+                                        display: block;
+                                        width: 500px;
+                                        height: 40px;
+                                    }
+                                </style>
+                                <script>
+                                    $('#ttt-search').bind('input propertychange', function() {
+                                        if ($(this).val().trim() != '') {
+                                            $('#ttt-search-list').css({'display':'block'});
+                                            $('#ttt-search-ul').html('');
+                                            $.ajax({
+                                                type: 'post',
+                                                url: "{{:U('/Home/Index/search')}}",
+                                                data: {
+                                                    'name': $(this).val(),
+                                                },
+                                                success: function (data) {
+                                                    var data = eval("("+data+")");
+                                                    for (var i in data){
+                                                        $('#ttt-search-ul').append('<li id="li'+data[i]['id']+'"><a href="{{:U(\"/Home/Homepage/index/u_id/'+data[i]['id']+'\")}}"><img src="/php/TP_Social/Public/upload/'+data[i]['head_image']+'" width="40px" height="40px"><span>'+data[i]['name']+'</span></a></li>');
+                                                    }
+                                                }
+                                            });
+                                        }else {
+                                            $('#ttt-search-list').css({'display':'none'});
+                                            $('#ttt-search-ul').html('');
+                                        }
+                                    });
+                                </script>
+                                <div id="ttt-search-list">
+                                    <ul id="ttt-search-ul">
+
+                                    </ul>
+                                </div>
+
+                                <dl class="hd-account cl">
+                                    <dt>
+                                        <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}">
+                                                <img src="__PUBLIC__/upload/{{$user.head_image}}"class="hd-avatar" width="30" height="30" alt="{{$user.name}}">
+                                        </a>
+                                    </dt>
+                                    <dd><a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" title="" class="hd-name">{{$user.name}}</a>
+                                        <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" class="hd-logindays">{{$date}}天</a>
+
+                                    </dd>
+                                </dl>
+
+                                <div class="hd-account-action">
+                                    <a href="" class="account-more" style="margin-top: 4px">
+                                        <span class="ui-icon ui-icon-setting" ></span>
+                                    </a>
+                                    <div class="nx-drop-box nx-simple-drop nx-account-drop" >
+                                        <style>
+                                            .ttt li a{
+                                                padding:0;
+                                                padding-left: 20px;
+                                                height: 35px;
+                                                line-height: 35px;
+                                            }
+                                        </style>
+                                        <ul class="nv-account-ctrl cl ttt">
+                                            <li class="nv-drop-privacy ">
+                                                <a href="{{:U('Head/index')}}">
+                                                    修改头像
+                                                </a>
+                                            </li>
+                                            <li class="nv-drop-setting">
+                                                <a href="{{:U('/Home/Personaldata/index')}}">
+                                                    个人设置
+                                                </a>
+                                            </li>
+                                            <li class="nv-drop-pay">
+                                                <a href="">
+                                                    隐私筛选
+                                                </a>
+                                            </li>
+                                            <li class="nv-account-sline"></li>
+                                            <li class="nv-drop-guide">
+                                                <a href="{{:U('Password/index')}}">
+                                                    密码安全
+                                                </a>
+                                            </li>
+                                            <li class="nv-drop-exit">
+                                                <a href="{{:U('Login/logout')}}">
+                                                    退出
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="hd-account-action hd-account-action-vip">
+                                    <a href="" class="account-more" style="margin-top: 5px"><span><img src="__PUBLIC__/home/resources/u_pm.png">
+                                        </span>
+                                        <if condition="$remind"><span class="pm_n" style="font-size: 13px">{{$remind}}</span></if>
+                                    </a>
+                                    <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                        <ul class="nv-account-ctrl cl ttt">
+                                            <li class="nv-drop-skin">
+                                                <a href="">
+                                                    <span class="grid_list_num"></span>消息
+                                                </a>
+                                            </li>
+                                            <li class="nv-drop-skin">
+                                                <a href="{{:U('/Home/Friendask/index')}}">
+                                                    新提醒<span class="grid_list_num"> <if condition="$remind">（{{$remind}}）</if></span>
+                                                </a>
+                                            </li>
+                                            <li class="nv-drop-skin">
+                                                <a href="">
+                                                    新听众
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bd-container ">
+                <div class="frame-nav-wrap">
+                    <div id="frameFixedNav" class="frame-nav-fixed-wraper" >
+                        <!--导航栏-->
+                        <div class="frame-nav-inner">
+                            <ul class="fd-nav-list clearfix">
+                                <li class="fd-nav-item fd-nav-item-list" id="mn_N36bf" onmouseover="">
+                                    <a href="" hidefocus="true">新鲜事</a>
+                                    <span class="fd-nav-filter-btn">
+                                        <span class="ui-icon ui-icon-caratb"></span>
+                                        <ul class="newsfeed-filter-list">
+                                            <li>
+                                                <a href="{{:U('/Home/Index/index/')}}" hidefocus="true">查看全部</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{:U('/Home/Index/index/t/1')}}" hidefocus="true">只看状态</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{:U('/Home/Index/index/t/2')}}" hidefocus="true">只看分享</a>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </li>
+                                <li class="fd-nav-item fd-nav-item-list" id="mn_N6bfe">
+                                    <a href="" hidefocus="true">原创内容</a>
+                                </li>
+                                <li class="fd-nav-item fd-nav-item-list" id="mn_N1c24">
+                                    <a href="" hidefocus="true">特别关注</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bd-main">
+                    <div class="bd-content cl" style="position: relative;padding: 0px;">
+                        <div class="nx-wraper cl">
+                            <div class="nx-sidebar">
+                                <div class="slide-fixed-wraper cl">
+
+                                    <style>
+                                        .imgWrap img {
+                                            width: 16px;
+                                        }
+                                    </style>
+
+                                    <!--左侧 侧边栏-->
+                                    <div class="_55y4">
+
+                                        <div id="pinnedNav" class="homeSideNav">
+                                            <h4 class="navHeader">
+                                                <span class="sectionDragHandle">常用功能</span>
+                                            </h4>
+
+                                            <style>
+                                                .ttt1 li {
+                                                    margin-top: 2px;
+                                                }
+                                            </style>
+                                            <ul class="_bui droppableNav _3-96 ttt1">
+                                                <li class="cl sideNavItem stat_elem selectedItem">
+                                                    <a class="_5afe" title="我的主页" href="{{:U('Homepage/index',array('u_id'=>session('id')))}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_40.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>我的主页</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe sortableItem" title="我的资料" href="{{:U('/Home/Personaldata/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_38.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>我的资料</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+
+                                                    <a target="_blank" class="_5afe sortableItem" title="我的好友" href="{{:U('/Home/Friendlist/index')}}">
+                                                        <span class="imgWrap"><img
+                                                                src="__PUBLIC__/home/resources/icon_26.gif"></span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>我的好友</span>
+                                                        </div>
+                                                    </a></li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a class="_5afe sortableItem" title="我的相册" href="{{:U('Album/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_40.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>我的相册</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe sortableItem" title="修改头像" href="{{:U('/Home/Head/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_68.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>修改头像</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
+                                        <div id="appsNav" class="homeSideNav" style="margin-top:30px">
+                                            <h4 class="navHeader"><span class="sectionDragHandle">安全</span></h4>
+
+                                            <ul class="_bui nonDroppableNav _3-96 ttt1">
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe"  href="{{:U('/Home/Password/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_46.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>修改密码</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe"  href="{{:U('/Home/Personaldata/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_74.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>修改个人资料</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <!--<li class="cl sideNavItem stat_elem">-->
+                                                    <!--<a target="_blank" class="_5afe"  href="">-->
+                                                        <!--<span class="imgWrap">-->
+                                                            <!--<img src="__PUBLIC__/home/resources/icon_32.gif">-->
+                                                        <!--</span>-->
+                                                        <!--<div class="linkWrap noCount">-->
+                                                            <!--<span>捏橘子1</span>-->
+                                                        <!--</div>-->
+                                                    <!--</a></li>-->
+
+                                                <!--<li class="cl sideNavItem stat_elem">-->
+                                                    <!--<a target="_blank" class="_5afe"  href="">-->
+                                                        <!--<span class="imgWrap">-->
+                                                            <!--<img src="__PUBLIC__/home/resources/icon_32.gif">-->
+                                                        <!--</span>-->
+                                                        <!--<div class="linkWrap noCount">-->
+                                                            <!--<span>捏橘子2</span>-->
+                                                        <!--</div>-->
+                                                    <!--</a>-->
+                                                <!--</li>-->
+                                            </ul>
+                                        </div>
+
+
+                                        <div id="groupsNav" class="homeSideNav" style="margin-top:30px">
+                                            <h4 class="navHeader">
+                                                <a target="_blank" href="">
+                                                    <div class="cl">
+                                                        <div class="_ohe lfloat">
+                                                            <span class="sectionDragHandle">关系</span>
+                                                        </div>
+                                                        <div class="_ohf rfloat">
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </h4>
+                                            <ul class="_bui nonDroppableNav _3-96 ttt1">
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a class="_5afe" title="好友" href="{{:U('Friendlist/index')}}">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_16.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>好友</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe" title="关注" href="">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_24.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>关注</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li class="cl sideNavItem stat_elem">
+                                                    <a target="_blank" class="_5afe" title="粉丝" href="">
+                                                        <span class="imgWrap">
+                                                            <img src="__PUBLIC__/home/resources/icon_48.gif">
+                                                        </span>
+                                                        <div class="linkWrap noCount">
+                                                            <span>粉丝</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div><!--左侧 侧边栏结束-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右边侧边栏开始 -->
+                    <div class="bd-content cl">
+                        <div class="nx-right ">
+                            <!--<div class="side-item cl" style="height: 145px">-->
+                                <!--<h1 style="padding: 10px;">-->
+                                    <!--<a href="" style="font-size: 16px;">留言板</a>-->
+                                    <!--<a href="" id="a_favorite" class="fa_fav y" onclick="showWindow();">-->
+                                        <!--收藏本版 <strong class="xi1" id="number_favorite">(<span id="number_favorite_num">115</span>)</strong>-->
+                                    <!--</a>-->
+                                    <!--<div style="height: 2px;width: 10px"></div>-->
+                                    <!--<br><br>-->
+                                    <!--<span class="xs1 xw0 i">今日:-->
+                                        <!--<strong class="xi1">93</strong>-->
+                                        <!--<span class="pipe">|</span>主题:-->
+                                        <!--<strong class="xi1">25939</strong>-->
+                                        <!--<span class="pipe">|</span>排名:-->
+                                        <!--<strong class="xi1" title="上次排名:1">1</strong>-->
+                                    <!--</span>-->
+                                <!--</h1>-->
+
+                                <!--<div style="padding: 10px;">-->
+                                    <!--<div id="forum_rules_2" style=";">-->
+                                        <!--<div class="ptn xg2">在这里你可以随时随地分享新鲜事！</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <style>
+                                .ttt-tj-f {
+                                    float: left;
+                                }
+                            </style>
+                            <div style="width: 240px;height: 225px;margin-bottom:18px;border:2px solid #dedede;background-color: white">
+                                <div style="width: 100%;height: 40px;">
+                                    <span style="float: left;margin-left: 9px;font-size: 15px;line-height: 40px;">推荐好友</span>
+                                    <a href="javascript:void(0)" class="glyphicon glyphicon-chevron-right" style="float: right;margin-right:10px;line-height: 40px;color: #BFBFBF;text-underline: none"></a>
+                                </div>
+                                <div style="width: 100%;">
+                                    <if condition="$us">
+                                        <volist name="us" id="us">
+                                            <div class="ttt-tj-f" style="width: 74px;height: 89px;margin:2px 2px 0;text-align: center">
+                                                <a href="{{:U('/Home/Homepage/index/u_id/'.$us['User']['id'])}}"><img src="__PUBLIC__/upload/{{$us.User.head_image}}" width="58px" height="58px" alt=""></a>
+                                                <p style="padding: 0 3px 0 3px;font-size: 13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color: #A9A9A9;margin-top: 2px">{{$us.User.name}}</p>
+                                            </div>
+                                        </volist>
+                                    <else/>
+                                        <center style="line-height: 150px">
+                                            完善资料后即可推荐好友！
+                                        </center>
+                                    </if>
+                                </div>
+                            </div>
+
+                            <div id="diy1" class="area">
+                                <div id="frameUZv8vE" class="frame move-span cl frame-1">
+                                    <div id="frameUZv8vE_left" class="column frame-1-c">
+                                        <div id="frameUZv8vE_left_temp" class="move-span temp"></div>
+                                        <div id="portal_block_14" class="block move-span">
+                                            <div id="portal_block_14_content" class="dxb_bc">
+                                                <div class="portal_block_summary">
+                                                    <div class="side-item bw0">
+                                                        <div class="side-item-advert">
+                                                            <a href="" class="btn_vime" onmouseover="this.style.color='white'">每日签到</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="side-item bw0">
+                                                        <div class="side-item-advert">
+                                                            <a href="" class="btn_vime" style="background: #78AF5D;">APP下载</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="side-item">
+                                                        <div class="side-item-header cl">
+                                                            <h4>关注我们：</h4>
+                                                        </div>
+                                                        <div class="side-item-body weixin cl">
+                                                            <img src="__PUBLIC__/home/resources/wx.jpg" class="z" style="width: 200px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--右边侧边栏结束-->
+
+                        <!--主体部分-->
+                        <div class="nx-content">
+                            <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/new.css">
+
+
+                            <!--发表说说-->
+                            <form method="post" autocomplete="off" id="fastpostform" action="" onsubmit="return validate(this)">
+                                <div id="f_pst" class="ui-renren-publisher-body bm cl" style="margin-bottom: 20px">
+
+                                    <div id="postbox">
+                                        <div class="tedt" style="border: none;">
+                                            <div class="area">
+                                                <textarea style="height:160px;" cols="80" name="message" id="e_textarea" tabindex="12"
+                                                          class="pt" placeholder="你现在在想什么？" oninput="changeFontLength(this.value)"></textarea>
+                                            </div>
+                                            <script>
+                                                function changeFontLength(m) {
+                                                    $('#fontlength span').html(m.length);
+                                                }
+                                            </script>
+                                        </div>
+                                        <div class="bm_c">
+                                            <div class="bar">
+                                                <div id="e_controls_mask" style="display: none; height: 18px;"></div>
+                                                <div id="e_controls" class="bar">
+                                                    <div id="e_button" class="">
+                                                        <div class="acts" id="e_adv_s1">
+                                                            <a id="e_image" class="btn btn-info image-block" data-toggle="modal" data-target="#myModal" title="添加图片" href="javascript:;" style="color: #fff;height: 35px;text-line-through: none;width: 80px">
+                                                                添加图片
+                                                            </a>
+                                                            <a id="ttt-ui-button-c6" href="javascript:" data-toggle="modal" data-target="#myModal"  class="btn btn-info" style="text-line-through: none;display: none;width: 80px">管理图片
+                                                            </a>
+                                                        </div>
+                                                        <div style="float: right;margin-top: -30px;font-size:15px;margin-right: 20px" id="fontlength">
+                                                            <span> 0 </span>/ 240
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="showImage" style="width: 500px;height: auto;max-height: 400px;overflow-x: hidden;overflow-y: scroll">
+
+                                            <style>
+                                                #showImage::-webkit-scrollbar {
+                                                    background: transparent;
+                                                    display: none;
+                                                }
+                                                #showImage img{
+                                                    margin: 4px 0 0 1px;
+                                                }
+                                            </style>
+                                            <div></div>
+                                        </div>
+
+                                        <!--上传图片-->
+
+                                        <style>
+                                            .file-drop-zone{
+                                                height: 400px;
+                                                overflow-y:scroll;
+                                            }
+                                            div.file-drop-zone::-webkit-scrollbar {
+                                                background: transparent;
+                                            }
+                                            .file-drop-zone-title{
+                                                margin-top: 70px;
+                                                font-size: 50px;
+                                            }
+                                            .ttt-modal-body .ttt-modal-text{
+                                                font-size: 50px;
+                                                text-align: center;
+                                                height: 500px;
+                                                line-height: 500px;
+                                            }
+                                            #up-modal-footer {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" style="width: 960px;height: 620px">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">选择图片上传</h4>
+                                                    </div>
+                                                    <div class="modal-body ttt-modal-body">
+                                                            <input id="ttt_input" class="file" name="file" type="file" multiple >
+                                                    </div>
+                                                    <div class="modal-footer" id="up-modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">完成</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+
+                                            var suc = sc = new Array();
+                                            var num = 0;
+                                            $("#ttt_input").fileinput({
+                                                showRemove : false,
+                                                language : 'zh',
+                                                allowedPreviewTypes : [ 'image' ],
+                                                allowedFileExtensions : [ 'jpg', 'png', 'gif' ],
+                                                maxFileSize : 10240,
+                                                previewFileType:'any',
+                                                previewFileIcon : '',
+                                                uploadUrl : "{{:U('/Home/Upload/upload')}}",
+                                                browseClass: "btn btn-primary",
+                                                showCaption: false,
+                                                enctype: 'multipart/form-data',
+                                                'fileActionSettings' : {
+                                                    showZoom: false,
+                                                    showUpload: false,
+                                                },
+                                            });
+                                            // 选择图片预览时
+                                            $('#ttt_input').on('fileloaded', function(event, file, previewId, index, reader) {
+                                                // 上传图片的总量
+                                                num = parseInt(previewId.split('-').pop())+1;
+                                            });
+                                            // 隐藏清空input
+                                            $('.fileinput-remove').hide();
+                                            // 上传成功后
+                                            $('#ttt_input').on('fileuploaded', function(event, data, previewId, index) {
+                                                // 图片上传成功后,将图片名保存到数组
+                                                if (data.response['code'] == 1) {
+                                                    sc[sc.length] = suc[suc.length] = data.response['content']['file']['savename'];
+                                                }
+                                                if(suc.length>0 && (parseInt(previewId.split('-').pop())+1) == num){
+                                                    // 存放图像html代码
+                                                    var ima = new Array();
+                                                    // 删除
+                                                    var dele = new Array();
+                                                    var j=0;
+                                                    for (var m in suc){
+                                                        if (suc[m]) {
+                                                            ima[j] = "<img src='/php/TP_Social/Public/upload/" + suc[m] + "' width='256px' class='file-preview-image' />";
+                                                            dele[j] = {
+                                                                url: '{{:U('/Home/Upload/delete')}}',
+                                                                showZoom: false,
+                                                                caption: '上传成功',
+                                                                key: m,
+                                                                extra: {name: suc[m]}
+                                                            };
+                                                        }
+                                                        j++;
+                                                    }
+                                                    $('#ttt_input').fileinput('clear');
+                                                    // 刷新视图
+                                                    $('#ttt_input').fileinput('refresh',{
+                                                        initialPreview : ima,
+                                                        initialPreviewConfig:dele,
+                                                    }).fileinput('enable');
+                                                    $('.btn-file').hide();
+                                                    // 隐藏清空input
+                                                    $('.fileinput-remove').hide();
+                                                    $('#up-modal-footer').toggle();
+                                                    $('#e_image').toggle();
+                                                    $('#ttt-ui-button-c6').toggle();
+                                                    var t = '';
+                                                    for (var i=0;i<sc.length;i++){
+                                                        t += "<img src='/php/TP_Social/Public/upload/"+sc[i]+"' width='163px'/>";
+                                                    }
+                                                    $('#showImage div').html(t);
+                                                }
+                                            });
+                                            $('#ttt_input').on('filedeleted', function(event, key) {
+                                                num--;
+                                                sc[key] = 2;
+                                                var t = '';
+                                                for (var i=0;i<sc.length;i++){
+                                                    if (sc[i] != 2) {
+                                                        t += "<img src='/php/TP_Social/Public/upload/" + sc[i] + "' width='163px'/>";
+                                                    }
+                                                }
+                                                $('#showImage div').html(t);
+                                                if (num == 0){
+                                                    $('#ttt_input').fileinput('disable');
+                                                    $('.ttt-modal-body').html('<div class="ttt-modal-text">请刷新页面重新上传</div>');
+                                                }
+                                            });
+                                        </script>
+                                        <!--上传图片结束-->
+                                    </div>
+                                    <!--发布按钮-->
+                                    <div class="ui-renren-publisher-buttonset" style="border-top: 3px solid #365496;">
+                                        <div class="buttonset">
+                                            <div style="float:left;">
+                                                <select id="choiceprivacy" style="font-size: 13px;min-width: 150px;background-color: white;padding-left: 10px;margin-left: -5px;color:#abcdef">
+                                                    <option value="0">公开</option>
+                                                    <option value="1">好友可见 </option>
+                                                    <option value="2">自己可见 </option>
+                                                </select>
+                                                <style>
+                                                    #choiceprivacy option{
+                                                        font-size: 15px;
+                                                        margin-bottom: 10px
+                                                    }
+                                                </style>
+                                            </div>
+                                            <div class="ui-button-white ui-button-blue ui-button-send ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                                                <a id="postsubmit" class="ui-button-text" onclick="aSub()">发布
+                                                </a>
+                                                <style>
+                                                    #postsubmit{
+                                                        width: 100px;
+                                                        height: 35px;
+                                                        line-height: 35px;
+                                                        color: white;
+                                                        text-line-through: none;
+                                                    }
+                                                </style>
+                                            </div>
+                                        </div>
+                                        <div class="ui-renren-privacy ui-widget ui-select">
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <script>
+                                function aSub(){
+                                    var privacy = $('#choiceprivacy').val();
+                                    var content = $('#e_textarea').val();
+                                    var img = '';
+                                    for (var i=0; i<sc.length; i++){
+                                        if(sc[i] != 2){
+                                            img += sc[i] + ',';
+                                        }
+                                    }
+                                    if(content.trim().length > 240){
+                                        layer.msg('状态字数不能超过240',{icon:5});
+                                        return;
+                                    }
+                                    if (content.trim() != ''){
+                                        $.ajax({
+                                           type : 'post',
+                                            url : "{{:U('/Home/Index/subArt')}}",
+                                            data: {
+                                                'img' : img,
+                                                'content' : content,
+                                                'privacy' : privacy
+                                            },
+                                            success : function($data) {
+                                                if ($data == 'suc'){
+                                                    window.location.reload();
+                                                }else {
+                                                     alert('sdfds');
+                                                }
+                                            }
+                                        });
+                                    }else {
+                                        layer.msg('请输入内容在发表状态',{icon:5});
+                                    }
+                                }
+                            </script>
+
+                            <div id="e_menus" class="editorrow"
+                                 style="overflow: hidden; margin-top: -5px; height: 0; border: none; background: transparent;">
+                                <div id="e_editortoolbar" class="editortoolbar">
+                                </div>
+                            </div>
+
+
+                            <div id="threadlist" class="feed-list" style="position: relative;">
+
+                                <div id="forumnew" style="display:none"></div>
+                                <!--<form method="post" autocomplete="off" name="moderate" id="moderate" action="">-->
+                                    <!--<input type="hidden" name="formhash" value="0e2cb7af">-->
+                                    <!--<input type="hidden" name="listextra" value="">-->
+
+                                    <!--主要内容 main-->
+                                    <!--<table summary="forum_2" cellspacing="0" cellpadding="0" id="threadlisttableid">-->
+                                    <if condition="count($article) eq 0">
+                                        <div class="a-feed" style="position: relative;height: 100px">
+                                            <center style="line-height: 100px;">
+                                                暂时没有好友,快去添加好友吧
+                                            </center>
+                                        </div>
+                                    </if>
+                                        <volist name="article" id="data" key="k">
+                                            <!--多个说说循环-->
+                                                    <div class="a-feed" style="position: relative;">
+                                                        <div class="cl header">
+                                                            <div class="user-avatar">
+
+                                                                <a href="{{:U('Homepage/index',array('u_id'=>$data['u_id']))}}" c="1" class="avatar" mid="card_8477">
+                                                                    <img src="__PUBLIC__/upload/{{$data.head_image}}" width="50" height="50" title="{{$data.username}}">
+                                                                </a>
+                                                            </div>
+                                                            <div class="feed-user-info cl">
+                                                                <a href="{{:U('Homepage/index',array('u_id'=>$data['u_id']))}}" c="1" target="_blank" mid="card_8477">{{$data.username}}</a>
+
+                                                            </div>
+                                                            <div class="feed-action-info">
+                                                                <p>
+                                                                <span class="pub-time">
+                                                                    <span>
+                                                                        <if condition="$data.pid eq 0">
+                                                                            公开发布 -
+                                                                        <else/>
+                                                                            公开转载 -
+                                                                        </if>
+                                                                        <if condition="date('Y',$data['time']) eq date('Y')">
+                                                                            {{$data.time|date='m-d h:i',###}}
+                                                                        <else/>
+                                                                            {{$data.time|date='Y-m-d h:i',###}}
+                                                                        </if>
+
+                                                                    </span>
+                                                                </span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="feed-content blog-content">
+                                                            <p class="blog-text">{{$data.content}}</p>
+                                                        </div>
+                                                        <div class="feed-content" <if condition="$data.pid gt 0">style="border-top:1px solid #dedede;padding-top:5px"</if>>
+                                                            <if condition="$data.pid gt 0">
+                                                                <span style="font-weight: bold;">{{$data['zuser']['name']}}</span>: <span style="font-size: 11px;color: #686f7c">{{$data['zhuan']['content']}}</span>
+                                                            </if>
+                                                            <div class="share-content"  <if condition="$data.pid gt 0">style="border-top:none"</if>>
+                                                                <!--判断有无图片-->
+                                                                <if condition="count($data['Image']) neq 0">
+                                                                    <!--一张图片-->
+                                                                    <if condition="count($data['Image']) eq 1">
+                                                                        <a href="" target="_blank" class="cursor-all cl photo-feed-pic1">
+                                                                            <img src="__PUBLIC__/upload/{{$data['Image'][0]['name']}}" class="img-responsive">
+                                                                            <span class="shadow-div"></span>
+                                                                        </a>
+                                                                        <!--两张图片-->
+                                                                        <elseif condition="count($data['Image']) eq 2"/>
+                                                                        <ul class="conte-image">
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic1">
+                                                                                    <img width="228px"  src="__PUBLIC__/upload/{{$data['Image'][0]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][1]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <!--三张图片-->
+                                                                        <elseif condition="count($data['Image']) eq 3"/>
+                                                                        <ul class="conte-image">
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic1">
+                                                                                    <img width="228px"  src="__PUBLIC__/upload/{{$data['Image'][0]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][1]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <ul class="conte-image">
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][2]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <!--大于等于4张-->
+                                                                        <elseif condition="count($data['Image']) egt 4" />
+                                                                        <ul class="conte-image">
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic1">
+                                                                                    <img width="228px"  src="__PUBLIC__/upload/{{$data['Image'][0]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][1]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <ul class="conte-image">
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][2]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="" target="_blank" class="cursor-all cl photo-feed-pic2">
+                                                                                    <img width="228px" src="__PUBLIC__/upload/{{$data['Image'][3]['name']}}">
+                                                                                    <span class="shadow-div"></span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <!--超过4张图时显示共几张-->
+                                                                        <if condition="count($data['Image']) gt 4">
+                                                                            <?php
+                                                                                if(count($data['Image']) == 5){
+                                                                                    echo '<ul class="conte-image willshow" style="display: none"><li><a href="" target="_blank" class="cursor-all cl photo-feed-pic2"><img width="228px" src="__PUBLIC__/upload/'.$data['Image'][4]['name'].'"><span class="shadow-div"></span></a></li></ul>';
+                                                                            }else {
+                                                                                $a = (int)((count($data['Image'])-4)/2);
+                                                                                $b = count($data['Image'])%2;
+                                                                                for($i=0;$i<$a;$i++){
+                                                                                    $q = $i*2+4;
+                                                                                    $p = $i*2+5;
+                                                                                    echo '<ul class="conte-image willshow" style="display: none"><li><a href="" target="_blank" class="cursor-all cl photo-feed-pic2"><img width="228px" src="__PUBLIC__/upload/'.$data['Image'][$q]['name'].'"><span class="shadow-div"></span></a></li><li><a href="" target="_blank" class="cursor-all cl photo-feed-pic2"><img width="228px" src="__PUBLIC__/upload/'.$data['Image'][$p]['name'].'"><span class="shadow-div"></span></a></li></ul>';
+                                                                                }
+                                                                                if($b != 0){
+                                                                                    $count = count($data['Image'])-1;
+                                                                                    echo '<ul class="conte-image willshow" style="display: none"><li><a href="" target="_blank" class="cursor-all cl photo-feed-pic2"><img width="228px" src="__PUBLIC__/upload/'.$data['Image'][$count]['name'].'"><span class="shadow-div"></span></a></li></ul>';
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                            <a href="javascript:void(0)" onclick="showAllImg()">
+                                                                                <div class="photo-count">
+                                                                                    <p><span>{{$data['Image']|count}}</span>张</p>
+                                                                                </div>
+                                                                            </a>
+                                                                        </if>
+                                                                    </if>
+                                                                </if>
+                                                            </div>
+                                                        </div>
+                                                        <!--说说下面点赞 评论 分享-->
+                                                        <div class="appendix cl">
+                                                            <a class="feed-btn ttt-dianzan{{$data.id}}" href="javascript:void(0)" onclick="dianzan('{{$data.id}}','{{$user.id}}')" <?php
+                                                                    for($i=0;$i<count($data['Zan']);$i++){
+                                                                        if($data['Zan'][$i]['u_id'] == $user['id']){
+                                                                            echo "style='background-color:red'";
+                                                                        }
+                                                                    }
+                                                                ?>>
+                                                                <i class="fa fa-thumbs-up" aria-hidden="true"></i> <span class="ttt-zan-num{{$data.id}}">{{$data.Zan|count}}</span>
+                                                            </a>
+                                                            <a href="javascript:void(0)" onclick="zhuanfa('{{$data.id}}','{{$user.id}}')" title="分享" class="feed-btn">
+                                                                <i class="fa fa-share"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="social-footer">
+                                                            <ul class="social-content-{{$data.id}}">
+                                                            <volist name="data.Comment" id="comment">
+                                                                <li>
+                                                                <div class="feed-reply-container" style="margin-bottom: -10px">
+                                                                    <div class="feed-replies">
+                                                                        <div class="a-reply clearfix">
+                                                                            <a href="" class="avatar" target="_blank">
+                                                                                <img src="__PUBLIC__/upload/<?php
+                                                                                            $a = (int)$data['id'];
+                                                                                            $b = (int)$comment['id'];
+                                                                                            echo $cuser[$a][$b][0]['head_image'];
+                                                                                        ?>" class="user-avatar">
+                                                                            </a>
+                                                                            <div class="reply-content">
+                                                                                <p class="reply-info clearfix">
+                                                                                    <a href="" class="user-name ttt-pinglun-name{{$comment.id}}" target="_blank" >
+                                                                                        <?php
+                                                                                            $a = (int)$data['id'];
+                                                                                            $b = (int)$comment['id'];
+                                                                                            echo $cuser[$a][$b][0]['name'];
+                                                                                        ?>
+                                                                                    </a>
+
+                                                                                    <span class="reply-time">
+                                                                                        {{$comment.time|date='Y-m-d h:i',###}}
+                                                                                    </span>
+                                                                                    <span class="reply-tool clearfix">
+                                                                                        <a href="javascript:void(0)" onclick="replayTopeople('{{$comment.id}}','{{$data.id}}')" class="to-reply">
+                                                                                            回复
+                                                                                        </a>
+                                                                                    </span>
+                                                                                </p>
+                                                                                <span class="text">
+                                                                                    <?php
+                                                                                        $a = (int)$data['id'];
+                                                                                        $b = (int)$comment['id'];
+                                                                                        if((int)$comment['pid'] != 0){
+                                                                                        echo '回复'.$ruser[$a][$b][0]['name'].': ';
+                                                                                        }
+                                                                                    ?>
+                                                                                    {{$comment.content}}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                </li>
+                                                            </volist>
+                                                            </ul>
+                                                            <!--回复-->
+                                                            <div class="feed-reply-container">
+                                                                <div class="feed-replies">
+                                                                    <div class="a-reply clearfix">
+                                                                        <a href="" class="avatar" target="_blank">
+                                                                            <img src="__PUBLIC__/upload/{{$user.head_image}}" class="user-avatar">
+                                                                        </a>
+                                                                        <div class="reply-content">
+                                                                            <div class="ttt-pinglun{{$data.id}}" >
+                                                                                <textarea class="ttt-pinglun-textarea{{$data.id}}" style="height: 30px;width: 430px;padding-left: 10px;padding-top: 5px" placeholder="评论..." onfocus="showpinglun('{{$data.id}}')" ></textarea>
+                                                                                <textarea class="ttt-pinglun-textarea-rep{{$data.id}}" style="height: 70px;width: 430px;padding-left: 10px;padding-top: 8px;display: none" placeholder="评论..." ></textarea>
+                                                                                <a href="javascript:" onclick="subpinglun('{{$data.id}}')" class="btn btn-info ttt-pinglun-button-sub{{$data.id}}" style="background-color: #fff;color:#3d4444;height: 30px;margin-top: 8px;display: none">发表评论</a>
+                                                                                <a href="javascript:" class="btn btn-info ttt-pinglun-button-rep{{$data.id}}" style="background-color: #fff;color:#3d4444;height: 30px;margin-top: 8px;display: none">发表评论</a>
+                                                                                <a href="javascript:" onclick="hidepinglun('{{$data.id}}')" class="btn btn-info ttt-pinglun-button-cal{{$data.id}}" style="background-color: #fff;color:#3d4444;height: 30px;margin-top: 8px;display: none">取消</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        </volist>
+
+                                        <style>
+                                            .social-footer .a-reply:hover{
+                                                background-color: #f8f8f8;
+                                                cursor: auto;
+                                            }
+                                        </style>
+
+                                    <!--</table>-->
+                                <!--</form>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            <!--底部-->
+            <block name="include"><include file="Boot:index"/></block>
+            <!--</div>-->
+
+
+
+            <div id="ft" class="wp cl"></div>
+            <div class="focus plugin" id="ip_notice"></div>
+
+        <!--</div>-->
+        <script>
+//            <!--显示所有图片-->
+            function showAllImg() {
+                $('.willshow').toggle();
+                $('#ttt-show-image').hide();
+            }
+//             显示评论
+            function showpinglun(article_id){
+                $('.ttt-pinglun-button-sub'+article_id).show();
+                $('.ttt-pinglun-button-cal'+article_id).show();
+                $('.ttt-pinglun-textarea'+article_id).height('70px').css({'padding-top':'8px'});
+            }
+//            隐藏评论
+            function hidepinglun(article_id){
+                $('.ttt-pinglun-button-sub'+article_id).hide();
+                $('.ttt-pinglun-button-rep'+article_id).hide();
+                $('.ttt-pinglun-button-cal'+article_id).hide();
+                $('.ttt-pinglun-textarea-rep'+article_id).hide();
+                $('.ttt-pinglun-textarea'+article_id).show().height('22px').css({'padding-top':'5px'});
+            }
+
+//            提交评论
+            function subpinglun(article_id){
+                var value = $('.ttt-pinglun-textarea'+article_id).val();
+                if(value.length > 240) {
+                    layer.msg('评论字数不得超过240个', {icon:5});
+                    return;
+                }
+                if(value.trim() != ''){
+                    $.ajax({
+                        type : 'post',
+                        url : "{{:U('/Home/Index/subComment')}}",
+                        data : {
+                            'article_id' : article_id,
+                            'content' : value
+                        },
+                        success : function(data){
+                            if (data == 'err'){
+                                layer.alert('评论失败，请重新尝试', {icon : 5});
+                            }else {
+                                $('.social-content-'+article_id).append(data);
+                                $('.ttt-pinglun-button-sub'+article_id).toggle();
+                                $('.ttt-pinglun-button-cal'+article_id).toggle();
+                                $('.ttt-pinglun-textarea'+article_id).height('20px').css({'padding-top':'5px'}).val('');
+                            }
+                        }
+                    });
+                }
+            }
+
+            // 回复评论
+            function replayTopeople(comment_id, article_id){
+                $('.ttt-pinglun-textarea'+article_id).hide();
+                $('.ttt-pinglun-button-sub'+article_id).hide();
+                $('.ttt-pinglun-button-cal'+article_id).show();
+                $('.ttt-pinglun-textarea-rep'+article_id).show().val('回复'+$('.ttt-pinglun-name'+comment_id).html().trim()+': ');
+                var len = $('.ttt-pinglun-textarea-rep'+article_id).val().length;
+                // 移除其他事件
+                $('.ttt-pinglun-button-rep'+article_id).unbind();
+                $('.ttt-pinglun-button-rep'+article_id).show().click(function(){
+                    var value = $('.ttt-pinglun-textarea-rep'+article_id).val();
+                    if(value.length > 240) {
+                        layer.msg('评论字数不得超过240个', {icon:5});
+                        return;
+                    }
+                    if(value.trim() != '' && value.length > len){
+                        $.ajax({
+                            type : 'post',
+                            url : "{{:U('/Home/Index/subComment')}}",
+                            data : {
+                                'article_id' : article_id,
+                                'content' : value,
+                                'comment_id' : comment_id
+                            },
+                            success : function(data){
+                                if (data == 'err'){
+                                    layer.alert('评论失败，请重新尝试', {icon : 5});
+                                }else {
+                                    $('.social-content-'+article_id).append(data);
+                                    $('.ttt-pinglun-button-rep'+article_id).toggle();
+                                    $('.ttt-pinglun-button-cal'+article_id).toggle();
+                                    $('.ttt-pinglun-textarea-rep'+article_id).hide();
+                                    $('.ttt-pinglun-textarea'+article_id).show().height('20px').css({'padding-top':'5px'}).val('');
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
+            function dianzan(article_id,user_id){
+                $.ajax({
+                    type: 'post',
+                    url : "{{:U('/Home/Index/dianZan')}}",
+                    data: {
+                        'article_id' : article_id,
+                        'user_id' : user_id
+                    },
+                    success: function(data){
+                        if(data == 'add'){
+                            var num = parseInt($('.ttt-zan-num'+article_id).html()) + 1;
+                            $('.ttt-zan-num'+article_id).html(num).css({'background-color':'red'});
+                            $('.ttt-dianzan'+article_id).css({'background-color':'red'});
+                        }else if(data == 'adderr') {
+                            layer.msg('点赞失败', {icon:5});
+                        }else if(data == 'del') {
+                            var num = parseInt($('.ttt-zan-num'+article_id).html()) - 1;
+                            $('.ttt-zan-num'+article_id).html(num).css({'background-color':'#fff'});
+                            $('.ttt-dianzan'+article_id).css({'background-color':'#fff'});
+                        }else if(data == 'delerr') {
+                            layer.msg('取消点赞失败', {icon:5});
+                        }
+                    }
+                });
+            }
+
+            function zhuanfa(article_id,user_id) {
+                $.ajax({
+                   type : 'post',
+                    url: "{{:U('/Home/Index/zhuanZai')}}",
+                    data: {
+                        'article_id':article_id,
+                        'user_id' : user_id
+                    },
+                    success: function(data){
+                        var info  = eval("("+data+")");
+                        if(info['image'].length > 0) {
+                            var imageInfo = '';
+                            for (var i = 0; i < info['image'].length; i++) {
+                                imageInfo += "<img src='/php/TP_Social/Public/upload/" + info['image'][i]['name'] + "' width='220px' style='margin-right: 5px;margin-bottom: 5px;' />"
+                            }
+                            //页面层
+                            layer.open({
+                                type: 1,
+                                title: false,
+                                area: ['470px', '350px'], //宽高
+                                btn: ['转载', '取消'],
+                                content: '<div style="overflow-x:hidden;width: 470px;height: 300px"><textarea style="padding:10px;border:none;width: 460px;height: 100px" class="ttt-zz-qwe">' + '//' + info['user']['name'] + ': ' + info['content'] + '</textarea><div style="background-color:#dedede;padding-left: 7px;padding-right: 3px;"><hr/><span style="font-size: 20px;">' + info['user']['name'] + ': </span>' + info['content'] + '<hr style="background-color:black"/>' + imageInfo + '</div></div>',
+                                success: function (layero) {
+                                    var btn = layero.find('.layui-layer-btn');
+                                    btn.find('.layui-layer-btn0').attr({
+                                        onclick: 'zz('+article_id+','+user_id+')'
+                                    });
+                                }
+                            });
+                        }else {
+                            //页面层
+                            layer.open({
+                                type: 1,
+                                title: false,
+                                area: ['470px', '220px'], //宽高
+                                btn: ['转载', '取消'],
+                                content: '<div style="overflow-x:hidden;width: 470px;height: 165px"><textarea  style="padding:10px;border:none;width: 460px;height: 100px" class="ttt-zz-qwe">' + '//' + info['user']['name'] + ':' + info['content'] + '</textarea><div style="background-color:#dedede;padding-left: 7px;padding-right: 3px;"><hr/><span style="font-size: 20px;">' + info['user']['name'] + ': </span>' + info['content'] + '<hr style="background-color:black"/></div></div>',
+                                success: function (layero) {
+                                    var btn = layero.find('.layui-layer-btn');
+                                    btn.find('.layui-layer-btn0').attr({
+                                        onclick: 'zz('+article_id+','+user_id+')'
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            // 转载写入数据库ajax
+            function zz(article_id, user_id){
+                var val = $('.ttt-zz-qwe').val();
+                $.ajax({
+                   type: 'post',
+                    url: "{{:U('/Home/Index/subZz')}}",
+                    data: {
+                        'article_id':article_id,
+                        'user_id' : user_id,
+                        'content' : val
+                    },
+                    success : function(data){
+                        if (data == 'suc'){
+                            window.location.reload();
+                            layer.alert('转载成功', {icon:6});
+                        }else if(data == 'err'){
+                            layer.msg('转载失败，请稍后重试', {icon:5});
+                        }
+                    }
+                });
+            }
+        </script>
+
+
+        <!--开启聊天栏-->
+        <div class="ttt-chat-close ttt-chat-left-show">
+            <a href="javascript:void(0)" onclick="$('.ttt-chat-left-show').hide();$('#ttt-chat-div').show();"><span class="glyphicon glyphicon-align-justify"></span></a>
+            <span id="ttt-chat-message-hide-num">0</span>
+        </div>
+        <!--聊天栏-->
+        <div id="ttt-chat-div" style="display: none;">
+            <div class="ttt-chat-close ttt-chat-right">
+                <a href="javascript:void(0)" onclick="$('#ttt-chat-div').hide();$('.ttt-chat-left-show').show();"><span class="glyphicon glyphicon-arrow-right"></span></a>
+            </div>
+            <div id="ttt-chat-tab">
+                <ul>
+                    <li id="ttt-chat-tab-cf" ><a href="javascript:void(0)"><i class="glyphicon glyphicon-user"></i> 好友</a></li>
+                    <li id="ttt-chat-tab-sf" style="display: none"><span><i class="glyphicon glyphicon-user"></i> 好友</span></li>
+                    <li id="ttt-chat-tab-ch" style="display: none"><a href="javascript:void(0)"><i class="glyphicon glyphicon-edit"></i> 会话</a></li>
+                    <li id="ttt-chat-tab-sh" ><span><i class="glyphicon glyphicon-edit"></i> 会话</span></li>
+                    <span id="ttt-chat-message-num">0</span>
+                </ul>
+            </div>
+            <div class="ttt-chat-content ttt-friend">
+                <ul>
+                    <volist name="friend" id="fr">
+                        <li class="ttt-friend-li{{$fr.id}}">
+                            <a href="javascript:void(0)" ondblclick="clicktochat('{{$fr.id}}','{{$fr.name}}','{{$fr.head_image}}')">
+                                <div>
+                                    <img src="__PUBLIC__/upload/{{$fr.head_image}}">
+                                </div>
+                                <div>
+                                    <p>{{$fr.name}}</p>
+                                </div>
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+            <div class="ttt-chat-content ttt-chat-now">
+                <ul>
+                    <volist name="chatnow" id="chat">
+                        <li class="ttt-chat-li{{$chat.User.id}}" onmousemove="showchatdelete('{{$chat.User.id}}')" onmouseout="hidechatdelete('{{$chat.User.id}}')" ondblclick="clicktochat('{{$chat.User.id}}','{{$chat.User.name}}','{{$chat.User.head_image}}')">
+                            <a href="javascript:void(0)">
+                                <div>
+                                    <span class="ttt-chat-now-mark ttt-chat-now-mark{{$chat.User.id}}"></span>
+                                    <img src="__PUBLIC__/upload/{{$chat.User.head_image}}">
+                                </div>
+                                <div>
+                                    <p>{{$chat.User.name}}</p>
+                                    <p class="ttt-chat-li-p{{$chat.User.id}}">{{$chat.content}}</p>
+                                </div>
+                                <div>
+                                    <button class="ttt-chat-delete ttt-cd-{{$chat.User.id}}" onclick="removefromchatnow('{{$chat.User.id}}')" onmousemove="showchatdelete('{{$chat.User.id}}')" onmouseout="hidechatdelete('{{$chat.User.id}}')">x</button>
+                                </div>
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+        <script>
+            var numberAll = {'0':0};
+
+            $('#ttt-chat-div').css({'height':document.documentElement.clientHeight,'width':'200px'});
+
+            function showchatdelete(num) {
+                $('.ttt-cd-'+num).css({'display':'block'});
+            }
+
+            function hidechatdelete(num){
+                $('.ttt-cd-'+num).css({'display':'none'});
+            }
+
+            $('#ttt-chat-tab-cf').click(function(){
+                $('#ttt-chat-tab-cf').css({'display':'none'});
+                $('#ttt-chat-tab-sf').css({'display':'block'});
+                $('#ttt-chat-tab-ch').css({'display':'block'});
+                $('#ttt-chat-tab-sh').css({'display':'none'});
+                $('.ttt-chat-now').css({'display':'none'});
+                $('.ttt-friend').css({'display':'block'});
+            });
+            $('#ttt-chat-tab-ch').click(function(){
+                $('#ttt-chat-tab-cf').css({'display':'block'});
+                $('#ttt-chat-tab-sf').css({'display':'none'});
+                $('#ttt-chat-tab-ch').css({'display':'none'});
+                $('#ttt-chat-tab-sh').css({'display':'block'});
+                $('.ttt-chat-now').css({'display':'block'});
+                $('.ttt-friend').css({'display':'none'});
+            });
+
+            function clicktochat(num, uname, uimg) {
+                // 判断节点是否存在
+                if($('.ttt-chat-li'+num).length > 0){
+                    var dom = $('.ttt-chat-li'+num);
+                    dom.remove();
+                    $('.ttt-chat-now ul').prepend(dom);
+                }else{
+                    $.ajax({
+                        url : "{{:U('/Home/Chat/chatNow')}}",
+                        type : 'post',
+                        data : {
+                            'user_id' : num
+                        },
+                        success : function(data){
+                            var data = eval("("+data+")");
+                            var dom = '<li class="ttt-chat-li'+num+'" onmousemove="showchatdelete('+num+')" onmouseout="hidechatdelete('+num+')" ondblclick="clicktochat('+num+',\''+uname+'\',\''+uimg+'\')"><a href="javascript:void(0)"><div><span class="ttt-chat-now-mark ttt-chat-now-mark'+num+'"></span><img src="__PUBLIC__/upload/'+uimg+'"></div><div><p>'+uname+'</p><p class="ttt-chat-li-p'+num+'">'+data['content']+'</p></div><div><button class="ttt-chat-delete ttt-cd-'+num+'" onmousemove="showchatdelete('+num+')" onmouseout="hidechatdelete('+num+')">x</button></div></a></li>';
+                            $('.ttt-chat-now ul').prepend(dom);
+                        }
+                    });
+                }
+                showchatwindow(num, uname, uimg);
+            }
+
+            // 显示聊天窗口
+            function showchatwindow(user_id, uname, uimg){
+                // 遍历聊天窗口 隐藏所有
+                $('.ttt-chat-window').each(function(){
+                    $(this).hide();
+                });
+
+                // 判断聊天窗口是否存在,不存在则创建   存在则显示
+                if($('.ttt-chat-window'+user_id).length <= 0){
+                    console.log(1432453254325)
+                    createchatwindow(user_id, uname, uimg);
+                }else {
+                    $('.ttt-chat-window'+user_id).show();
+                }
+                // 判断打开的聊天窗口是否是发消息那个人的窗口
+                if(numberAll[user_id]) {
+                    // 未读信息条数减少
+                    $('#ttt-chat-message-num').html((parseInt($('#ttt-chat-message-num').html()) - parseInt(numberAll[user_id])));
+                    $('#ttt-chat-message-hide-num').html((parseInt($('#ttt-chat-message-hide-num').html()) - parseInt(numberAll[user_id])));
+                    $('.ttt-chat-now-mark'+user_id).hide();
+                    numberAll[user_id] = 0;
+                    if (parseInt($('#ttt-chat-message-num').html()) == 0){
+                        $('#ttt-chat-message-num').hide();
+                        $('#ttt-chat-message-hide-num').hide();
+                    }
+                    // 将数据中的未读信息变为已读
+                    $.ajax({
+                        type : 'post',
+                        url : "{{:U('/Home/Chat/changeMsgStatu')}}",
+                        data : {
+                            'from_id' : user_id,
+                        }
+                    })
+                }
+            }
+
+            // 关闭聊天窗口
+            function closechatwindow() {
+                $('.ttt-chat-window').hide();
+            }
+
+            // 从正在聊天窗口中移除某个用户
+            function removefromchatnow(num, event){
+                console.log(4324);
+                window.event? window.event.cancelBubble = true : event.stopPropagation();
+            }
+
+            // websocket
+            var ws = new WebSocket('ws://192.168.20.144:8282');
+            // 链接成功时
+            ws.onopen = function(){
+                var uid = '{{$user.id}}';
+                var msg = {'type':'setuid','uid':uid};
+                msg = JSON.stringify(msg);
+                ws.send(msg);
+            };
+
+            // 接受服务器的回执信息
+            ws.onmessage = function (evt)
+            {
+                var received_msg = eval("("+evt.data+")");
+                // 判断聊天列表中有无该好友
+                if($('.ttt-chat-li'+received_msg['from_id']).length <= 0){
+                    $.ajax({
+                        type : 'post',
+                        url : "{{:U('/Home/Chat/chatNow')}}",
+                        data : {
+                            'user_id' : received_msg['from_id']
+                        },
+                        success : function(data){
+                            var data = eval("("+data+")");
+                            var dom = '<li class="ttt-chat-li'+received_msg['from_id']+'" onmousemove="showchatdelete('+received_msg['from_id']+')" onmouseout="hidechatdelete('+received_msg['from_id']+')" ondblclick="clicktochat('+received_msg['from_id']+',\''+received_msg['uname']+'\',\''+received_msg['img']+'\')"><a href="javascript:void(0)"><div><span class="ttt-chat-now-mark ttt-chat-now-mark'+received_msg['from_id']+'"></span><img src="__PUBLIC__/upload/'+received_msg['img']+'"></div><div><p>'+received_msg['uname']+'</p><p class="ttt-chat-li-p'+received_msg['from_id']+'">'+data['content']+'</p></div><div><button class="ttt-chat-delete ttt-cd-'+received_msg['from_id']+'" onmousemove="showchatdelete('+received_msg['from_id']+')" onmouseout="hidechatdelete('+received_msg['from_id']+')">x</button></div></a></li>';
+                            $('.ttt-chat-now ul').prepend(dom);
+                        }
+                    });
+                }
+                // 判断聊天窗口是否存在
+                if(($('.ttt-chat-window'+received_msg['from_id']).length) <= 0){
+                    createchatwindow(received_msg['from_id'],received_msg['uname'],received_msg['img']);
+                    $('.ttt-chat-window'+received_msg['from_id']).hide();
+                }else {
+                    // 更新
+                    $('.ttt-chat-msg'+received_msg['from_id']).append('<div class="ttt-chat-msg-left"><img src="__PUBLIC__/upload/'+received_msg['img']+'"><div style=""><div >'+received_msg['content']+'</div></div></div>');
+                }
+                // 更新正在聊天最新信息
+                $('.ttt-chat-li-p'+received_msg['from_id']).html(received_msg['content']);
+                // 判断与该用户的聊天窗口是否是隐藏
+                if ($('.ttt-chat-window'+received_msg['from_id']).is(":hidden")){
+                    var n = parseInt($('#ttt-chat-message-num').html()) + 1;
+                    $('#ttt-chat-message-num').html(n).show();
+                    $('#ttt-chat-message-hide-num').html(n).show();
+
+                    if (numberAll[received_msg['from_id']]){
+                        numberAll[received_msg['from_id']] += 1;
+                    }else{
+                        numberAll[received_msg['from_id']] = 1;
+                    }
+                    $('.ttt-chat-now-mark'+received_msg['from_id']).show();
+                }
+            };
+
+            // 发送信息
+            function s(to_id, mes){
+                if(mes.trim() != ''){
+                    var a = {'type':'sentmsg','from_id':'{{$user.id}}','to_id':to_id,'content':mes, 'img':'{{$user.head_image}}', 'uname':'{{$user.name}}'};
+                    a = JSON.stringify(a);
+                    ws.send(a);
+                    // 更新正在聊天最新信息
+                    $('.ttt-chat-li-p'+to_id).html(mes);
+                    // 将信息添加到信息展示区
+                    $('.ttt-chat-msg'+to_id).append('<div class="ttt-chat-msg-right"><img src="__PUBLIC__/upload/'+'{{$user.head_image}}'+'"><div><div>'+mes+'</div></div></div>');
+                    // 清空消息输入框
+                    $('.ttt-chat-textarea'+to_id).val('');
+                }
+            }
+
+            function createchatwindow(user_id, uname, uimg){
+                var dWindow = $("<div class='ttt-chat-window ttt-chat-window"+user_id+"'></div>");
+                var dTitle = $('<div class="ttt-chat-title ttt-chat-title'+user_id+'"><ul><li><i class="glyphicon glyphicon-link"></i><span class="ttt-chat-title-name ttt-chat-title-name'+user_id+'"></span></li><li><a href="javascript:void(0)"><span class="glyphicon glyphicon-remove" onclick="closechatwindow()"></span></a></li></ul></div>');
+                var dM = $(' <div class="ttt-chat-msg ttt-chat-msg'+user_id+'"></div>');
+                var dB = $('<div class="ttt-chat-input ttt-chat-input'+user_id+'"><textarea class="ttt-chat-textarea ttt-chat-textarea'+user_id+'" placeholder="请输入聊天信息..."></textarea></div>');
+                var dV = $('<div class="ttt-chat-button ttt-chat-button'+user_id+'"><a class="ttt-chat-button-sub ttt-chat-button-sub'+user_id+'" href="javascript:void(0)">发送</a></div>');
+                dWindow.append(dTitle).append(dM).append(dB).append(dV);
+                $('body').append(dWindow);
+
+                // 初始化设置
+                var t = document.documentElement.clientHeight - $('.ttt-chat-window'+user_id).height();
+                $('.ttt-chat-window'+user_id).css({'display':'block','right':'205px','top':t});
+                $('.ttt-chat-title-name'+user_id).html(uname);
+                $('.ttt-chat-textarea'+user_id).val();
+                $.ajax({
+                    url : "{{:U('/Home/Chat/search')}}",
+                    type : 'post',
+                    data : {
+                        'user_id' : user_id
+                    },
+                    success : function(data){
+                        var data = eval("("+data+")");
+                        if(data.u_from_id == data.u_id){
+                            var dom = '<div class="ttt-chat-msg-right"><img src="__PUBLIC__/upload/{{$user.head_image}}"><div style=""><div>'+data.content+'</div></div></div>';
+                            // $('.ttt-chat-msg'+user_id).html(' ');
+//                            var t = '<div class="ttt-chat-msg-time">- <span>'+new Date(parseInt(data.time) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日|下|午/g, " ")+'</span> -</div>';
+                            $('.ttt-chat-msg'+user_id).prepend(dom);
+//                            $('.ttt-chat-msg'+user_id).prepend(t);
+                        }else {
+                            var dom = '<div class="ttt-chat-msg-left"><img src="__PUBLIC__/upload/'+uimg+'"><div style=""><div >'+data.content+'</div></div></div>';
+                            // $('.ttt-chat-msg'+user_id).html(' ');
+//                            var t = '<div class="ttt-chat-msg-time">- <span>'+new Date(parseInt(data.time) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日|下|午/g, " ")+'</span> -</div>';
+                            $('.ttt-chat-msg'+user_id).prepend(dom);
+//                            $('.ttt-chat-msg'+user_id).prepend(t);
+
+                        }
+                        // 为发送按钮绑定事件
+                        $('.ttt-chat-button-sub').click(function(){
+                            s(user_id, $('.ttt-chat-textarea'+user_id).val());
+                        });
+                    }
+                });
+            }
+
+            // 查看数据库的未读信息
+            function messageNotRead(){
+                $.ajax({
+                    type : 'post',
+                    url : "{{:U('/Home/Chat/messageNotRead')}}",
+                    success : function(data){
+                        var data = eval("("+data+")");
+                        // 消息数量
+                        var mesNum = data.length;
+                        if (mesNum > 0){
+                            for(var i=0; i<mesNum; i++){
+                                // 判断正在聊天是否存在
+                                if($('.ttt-chat-li'+data[i]['u_from_id']).length <= 0){
+                                    var dom = '<li class="ttt-chat-li'+data[i]['u_from_id']+'" onmousemove="showchatdelete('+data[i]['u_from_id']+')" onmouseout="hidechatdelete('+data[i]['u_from_id']+')" ondblclick="clicktochat('+data[i]['u_from_id']+',\''+data[i]['User']['name']+'\',\''+data[i]['User']['head_image']+'\')"><a href="javascript:void(0)"><div><span class="ttt-chat-now-mark ttt-chat-now-mark'+data[i]['u_from_id']+'"></span><img src="__PUBLIC__/upload/'+data[i]['User']['head_image']+'"></div><div><p>'+data[i]['User']['name']+'</p><p class="ttt-chat-li-p'+data[i]['u_from_id']+'">'+data[i]['content']+'</p></div><div><button class="ttt-chat-delete ttt-cd-'+data[i]['u_from_id']+'" onmousemove="showchatdelete('+data[i]['u_from_id']+')" onmouseout="hidechatdelete('+data[i]['u_from_id']+')">x</button></div></a></li>';
+                                    $('.ttt-chat-now ul').prepend(dom);
+                                }else {
+                                    $('.ttt-chat-li-p'+data[i]['u_from_id']).html(data[i]['content']);
+                                    var dom = $('.ttt-chat-li'+data[i]['u_from_id']);
+                                    dom.remove();
+                                    $('.ttt-chat-now ul').prepend(dom);
+                                }
+                                $('.ttt-chat-now-mark'+data[i]['u_from_id']).show();
+                                // 判断聊天窗口是否存在
+                                if($('.ttt-chat-window'+data[i]['u_from_id']).length <= 0){
+                                    createNotReadMes(data[i]['u_from_id'],data[i]['User']['name'],data[i]['User']['head_image'],data[i]['content']);
+                                }else {
+                                    var dom = '<div class="ttt-chat-msg-left"><img src="__PUBLIC__/upload/'+data[i]['User']['head_image']+'"><div style=""><div >'+data[i]['content']+'</div></div></div>';
+                                    $('.ttt-chat-msg'+data[i]['u_from_id']).append(dom);
+                                }
+                                // 将信息条数存到数组  并显示共多少条数
+                                var n = parseInt($('#ttt-chat-message-num').html()) + 1;
+                                $('#ttt-chat-message-num').html(n).show();
+                                $('#ttt-chat-message-hide-num').html(n).show();
+
+                                if (numberAll[data[i]['u_from_id']]){
+                                    numberAll[data[i]['u_from_id']] += 1;
+                                }else{
+                                    numberAll[data[i]['u_from_id']] = 1;
+                                }
+                            }
+                        }
+
+                    }
+                })
+            }
+            function createNotReadMes(user_id, uname, uimg, content){
+
+                var dWindow = $("<div class='ttt-chat-window ttt-chat-window"+user_id+"'></div>");
+                var dTitle = $('<div class="ttt-chat-title ttt-chat-title'+user_id+'"><ul><li><i class="glyphicon glyphicon-link"></i><span class="ttt-chat-title-name ttt-chat-title-name'+user_id+'"></span></li><li><a href="javascript:void(0)"><span class="glyphicon glyphicon-remove" onclick="closechatwindow()"></span></a></li></ul></div>');
+                var dM = $(' <div class="ttt-chat-msg ttt-chat-msg'+user_id+'"></div>');
+                var dB = $('<div class="ttt-chat-input ttt-chat-input'+user_id+'"><textarea class="ttt-chat-textarea ttt-chat-textarea'+user_id+'" placeholder="请输入聊天信息..."></textarea></div>');
+                var dV = $('<div class="ttt-chat-button ttt-chat-button'+user_id+'"><a class="ttt-chat-button-sub ttt-chat-button-sub'+user_id+'" href="javascript:void(0)">发送</a></div>');
+                dWindow.append(dTitle).append(dM).append(dB).append(dV);
+                $('body').append(dWindow);
+
+                // 初始化设置
+                var t = document.documentElement.clientHeight - $('.ttt-chat-window'+user_id).height();
+                $('.ttt-chat-window'+user_id).css({'display':'block','right':'205px','top':t,'display':'none'});
+                $('.ttt-chat-title-name'+user_id).html(uname);
+                $('.ttt-chat-textarea'+user_id).val();
+
+                var dom = '<div class="ttt-chat-msg-left"><img src="__PUBLIC__/upload/'+uimg+'"><div style=""><div >'+content+'</div></div></div>';
+                $('.ttt-chat-msg'+user_id).append(dom);
+                // 为发送按钮绑定事件
+                $('.ttt-chat-button-sub').click(function(){
+                    s(user_id, $('.ttt-chat-textarea'+user_id).val());
+                });
+            }
+            messageNotRead();
+        </script>
+        <style>
+            .ttt-chat-left-show {
+                position: fixed;
+                top: 0px;
+                right: 0px;
+                z-index: 999;
+            }
+            #ttt-chat-message-hide-num {
+                position: absolute;
+                top:2px;
+                right: 5px;
+                width: 13px;
+                height: 15px;
+                line-height: 15px;
+                text-align: center;
+                color: white;
+                background-color: #ffa500;
+                display: none;
+            }
+            #ttt-chat-div{
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 999;
+                border: 1px solid #ee7777;
+            }
+
+            .ttt-chat-close {
+                height: 49px;
+                width: 50px;
+            }
+            .ttt-chat-close a{
+                display: block;
+                height: 49px;
+                width: 50px;
+                line-height: 49px;
+                text-align: center;
+                color: white;
+                background-color: #0778A9;
+            }
+
+            #ttt-chat-tab{
+                position: relative;
+                width: 198px;
+                height: 50px;
+                background-color: #F6F4EC;
+            }
+            #ttt-chat-tab ul li{
+                width: 99px;
+                float: left;
+                height: 48px;
+                border-top: 1px solid #dedede;
+                border-bottom: 1px solid #dedede;
+            }
+            #ttt-chat-tab-cf, #ttt-chat-tab-sf{
+                border-right: 1px solid #dedede;
+            }
+            #ttt-chat-tab ul li a{
+                display: block;
+                height: 48px;
+                line-height: 48px;
+                text-align: center;
+                text-line-through: none;
+                text-decoration:none;
+                background-color: #f5faff;
+            }
+            #ttt-chat-tab ul li span{
+                display: block;
+                height: 48px;
+                line-height: 48px;
+                text-align: center;
+                background-color: #fff;
+            }
+            #ttt-chat-message-num{
+                position: absolute;
+                top:5px;
+                right: 10px;
+                width: 15px;
+                height: 20px;
+                text-align: center;
+                color: white;
+                background-color: #ffa500;
+                display: none;
+            }
+
+            .ttt-chat-content{
+                position: relative;
+                height: 100%;
+                background-color: #f5faff;
+                /*top: 1px;*/
+            }
+            .ttt-chat-content ul li {
+                height: 59px;
+                border-bottom: 1px solid #dfdfdf;
+                /*background-color: red;*/
+            }
+            .ttt-chat-content ul li:hover {
+                background-color: #fff;
+            }
+            .ttt-chat-content ul li a{
+                display: block;
+                height: 59px;
+                text-line-through: none;
+                text-decoration:none;
+            }
+            .ttt-chat-content ul li a div{
+                float: left;
+            }
+            .ttt-chat-content ul li a div:first-child img{
+                width: 50px;
+                height: 50px;
+                border: 1px solid #ededed;
+                margin-top: 5px;
+                margin-left: 8px;
+            }
+            .ttt-chat-content ul li a div:nth-child(2){
+                margin-left: 10px;
+                margin-top: 10px;
+                width: 100px;
+                /*background-color: blue;*/
+            }
+            .ttt-chat-content ul li a div:nth-child(2) p {
+                font-size: 14px;
+                color: black;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
+            .ttt-chat-content ul li a div:nth-child(2) p:last-child {
+                font-size: 8px;
+                color: black;
+            }
+
+            .ttt-chat-now-mark {
+                float: left;
+                background-color: #ffa500;
+                height: 45px;
+                margin-top: 8px;
+                width: 2px;
+                display: none;
+            }
+
+            .ttt-friend {
+                display: none;
+            }
+            .ttt-friend ul li a div:nth-child(2) p {
+                margin-top: 10px;
+                font-size: 15px;
+                color: black;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
+
+            .ttt-chat-delete {
+                margin-top: 5px;
+                margin-left: 9px;
+                border:0;
+                text-align: center;
+                width: 16px;
+                height: 20px;
+                display: none;
+                /*background-color: transparent;*/
+                z-index: 9999;
+            }
+
+            .ttt-chat-window{
+                display: none;
+                position: fixed;
+                width: 400px;
+                height: 460px;
+                z-index: 999;
+            }
+
+            .ttt-chat-title{
+                background-color: blue;
+                height: 40px;
+                width: 400px;
+            }
+            .ttt-chat-title ul li{
+                width: 200px;
+                height: 40px;
+                line-height: 40px;
+            }
+            .ttt-chat-title ul li:first-child{
+                float: left;
+                padding-left: 15px;
+                color: white;
+                font-size: 15px;
+            }
+            .ttt-chat-title ul li:first-child span{
+                margin-left: 8px;
+            }
+            .ttt-chat-title ul li:last-child{
+                float: right;
+            }
+            .ttt-chat-title ul li:last-child a{
+                float: right;
+                padding-right: 20px;
+                color: white;
+            }
+
+            .ttt-chat-msg {
+                background-color: #fff;
+                height: 280px;
+                width: 400px;
+                overflow-y: scroll;
+            }
+            .ttt-chat-msg::-webkit-scrollbar {
+                background: transparent;
+                display: none;
+            }
+            .ttt-chat-msg-time {
+                padding-top:15px;
+                text-align: center;
+            }
+            .ttt-chat-msg-left{
+                padding: 15px 0 0 10px;
+                float: left;
+                width: 100%;
+            }
+            .ttt-chat-msg-left img{
+                width:30px;
+                height:30px;
+                float: left;
+            }
+            .ttt-chat-msg-left div{
+                float: left;
+                max-width:310px;
+                margin-left:5px;
+                background-color: #6297FF;
+            }
+            .ttt-chat-msg-left div div{
+                padding: 5px;
+                color:white;
+            }
+            .ttt-chat-msg-right{
+                padding: 15px 10px 0 0;
+                float: right;
+                width: 100%;
+            }
+            .ttt-chat-msg-right img{
+                width:30px;
+                height:30px;
+                float: right;
+            }
+            .ttt-chat-msg-right div{
+                max-width: 310px;
+                margin-right:5px;
+                background-color: #6297FF;
+                float:right;
+            }
+            .ttt-chat-msg-right div div{
+                padding: 5px;
+                color:white;
+            }
+
+
+            .ttt-chat-input{
+                background-color: #E9EEF3;
+                height: 120px;
+                width: 400px;
+            }
+            .ttt-chat-textarea{
+                background-color: #E9EEF3;
+                height: 120px;
+                width: 400px;
+                padding-top: 10px;
+                padding-left: 5px;
+                font-size: 13px;
+                border: none;
+                border-top: 1px solid #dedede;
+                border-left: 1px solid #dedede;
+                border-right: 1px solid #dedede;
+            }
+            .ttt-chat-textarea::-webkit-scrollbar {
+                background: transparent;
+                display: none;
+            }
+
+
+            .ttt-chat-button{
+                background-color: #E9EEF3;
+                height: 20px;
+                width: 400px;
+            }
+            .ttt-chat-button-sub{
+                float: right;
+                display: block;
+                width: 400px;
+                height: 20px;
+                text-align: center;
+                border: 1px solid #dedede;
+                text-line-through: none;
+                text-decoration:none;
+            }
+        </style>
+    </body>
+</html>
+<!--<div class="ttt-chat-window">-->
+<!--&lt;!&ndash;标题&ndash;&gt;-->
+<!--<div class="ttt-chat-title">-->
+<!--<ul>-->
+<!--<li><i class="glyphicon glyphicon-link"></i><span class="ttt-chat-title-name"></span></li>-->
+<!--<li><a href="javascript:void(0)"><span class="glyphicon glyphicon-remove" onclick="closechatwindow()"></span></a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--&lt;!&ndash;信息窗口&ndash;&gt;-->
+<!--<div class="ttt-chat-msg">-->
+
+<!--</div>-->
+<!--&lt;!&ndash;输入窗口&ndash;&gt;-->
+<!--<div class="ttt-chat-input">-->
+<!--<textarea class="ttt-chat-textarea" placeholder="请输入聊天信息..."></textarea>-->
+<!--</div>-->
+<!--&lt;!&ndash;按钮&ndash;&gt;-->
+<!--<div class="ttt-chat-button">-->
+<!--<a class="ttt-chat-button-sub" href="javascript:void(0)">发送</a>-->
+<!--</div>-->
+<!--</div>-->
+
+
+
+<!--<div class="ttt-chat-msg-time">-->
+    <!-- - <span>2016-11-09 12:47:45</span> - -->
+<!--</div>-->
+<!--<div class="ttt-chat-msg-left">-->
+    <!--<img src="__PUBLIC__/upload/y.jpg">-->
+    <!--<div style="">-->
+        <!--<div >-->
+            <!--噶啥grewgewrgergrrrrrrr噶啥grewgewrgergrrrrrrr噶啥grewgewrgergrrrrrrr-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="ttt-chat-msg-right">-->
+    <!--<img src="__PUBLIC__/upload/5829be8d2aafa.png">-->
+    <!--<div style="">-->
+        <!--<div>-->
+            <!--...grewgewrg-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

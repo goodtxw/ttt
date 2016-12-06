@@ -1,0 +1,86 @@
+<extend name="layouts/layout" />
+
+<block name="css">
+    <link href="__PUBLIC__/bs/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/animate.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/style.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/bs/css/login.min.css" rel="stylesheet">
+</block>
+
+<block name="content">
+<body class="signin">
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>[ 人人 ]</h1>
+                </div>
+                <div class="m-b"></div>
+                <h4>欢迎使用 <strong>人人网社交平台</strong></h4>
+                <ul class="m-b">
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 相互交流</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 分享信息</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 自创内容</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 玩游戏，听音乐</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 参与 团购</li>
+                </ul>
+                <strong>还没有账号？ <a href="{{:U('Register/register')}}">立即注册&raquo;</a></strong><br/>
+                <strong>已有账号？ <a href="{{:U('Login/login')}}">立即登录&raquo;</a></strong>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <form method="post" action="{{:U('Login/sendMail')}}">
+                <h4 class="no-margins">重置密码：</h4>
+                <input type="password" class="form-control pword m-b" id="password" placeholder="请输入密码" />
+                <input type="password" class="form-control pword m-b" id="password1" placeholder="请确认密码" />
+                <a href="javascript:void(0)" class="btn btn-success btn-block" onclick="checktP()">提交</a>
+            </form>
+
+        </div>
+    </div>
+    <div class="signup-footer">
+        <div class="pull-left">
+            &copy; 2016 All Rights Reserved. rr
+        </div>
+    </div>
+</div>
+</body>
+</block>
+<block name="script">
+    <script>
+        function checktP(){
+            var p1 = $('#password').val().trim();
+            var p2 = $('#password1').val().trim();
+            if (p1 == '' || p2 == ''){
+                layer.msg('密码不能为空');
+                return;
+            }
+            if (p1.length < 6){
+                layer.msg('密码长度不能小于6位');
+                return;
+            }
+            if(p1 != p2) {
+                layer.msg('两次密码不一样');
+            }else {
+                $.ajax({
+                    type: 'post',
+                    url: "{{:U('/Home/Login/doReset')}}",
+                    data: {
+                        'p1': p1,
+                        'email':"<?=$_GET['email']?>"
+                    },
+                    success: function (data) {
+                        if (data == 'suc'){
+                            layer.msg('密码修改成功，请重新登录');
+                            window.setTimeout("window.location.href=\"{{:U('/Home/Login/login')}}\"",2000);
+                        }else {
+                            layer.msg('密码修改失败');
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</block>
+</html>

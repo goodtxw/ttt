@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>好友列表</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_home_space.css">
+
+    <script src="__PUBLIC__/home/js/common.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/home/js/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/register-guide-v7.css">
+    <link rel="stylesheet" type="text/css"
+          href="__PUBLIC__/home/css/page_upgrade-all-min.css">
+    <script src="__PUBLIC__/layer/layer.js" type="text/javascript"></script>
+</head>
+
+<body class="nx-main980">
+<div id="fixedLayer"></div>
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<!--<div id="nxContainer" class="nx-container">-->
+<div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+
+    <div class="nx-main">
+
+        <div id="nxHeader" class="hd-wraper ">
+            <div class="hd-fixed-wraper cl">
+                <div class="hd-main">
+                    <h1 class="hd-logo"><a href="{{:U('Index/index')}}" title=""><img
+                            src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;"></a></h1>
+                    <div class="hd-nav cl" style="opacity: 1; display: block;">
+                        <div class="hd-search">
+                            <form id="scbar_form" method="post" action="">
+                                <input type="text" name="srchtxt" class="hd-search-input" autocomplete="off" placeholder="请输入搜索内容">
+                                <button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn" value="true"></button>
+                            </form>
+                        </div>
+                        <dl class="hd-account cl">
+                            <dt>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}">
+                                    <img src="__PUBLIC__/upload/{{$info.head_image}}" class="hd-avatar" width="30" height="30" alt="">
+                                </a>
+                            </dt>
+                            <dd><a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" title="" class="hd-name">{{$info.name}}</a>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" class="hd-logindays">{{$date}}天</a>
+                            </dd>
+                        </dl>
+                        <div class="hd-account-action">
+                            <a href="javascript:void(0)" class="account-more"><span
+                                    class="ui-icon ui-icon-setting"></span></a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-privacy "><a href="{{:U('Head/index')}}">修改头像</a></li>
+                                    <li class="nv-drop-setting"><a href="{{:U('Personaldata/index')}}">个人设置</a></li>
+                                    <li class="nv-drop-pay"><a href="javascript:void(0)">隐私筛选</a></li>
+                                    <li class="nv-account-sline"></li>
+                                    <li class="nv-drop-guide"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                                    <li class="nv-drop-exit"><a href="{{:U('Login/logout')}}">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="hd-account-action hd-account-action-vip">
+                            <a href="javascript:void(0)" class="account-more"><span><img
+                                    src="__PUBLIC__/home/resources/u_pm.png"></span>
+                                <if condition="$remind eq 0">
+                                    <else /><span class="pm_n">{{$remind}}</span>
+                                </if>
+                            </a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl">
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)"><span class="grid_list_num"></span>消息</a></li>
+                                    <li class="nv-drop-skin"><a href="{{:U('Friendask/index')}}">提醒
+                                        <if condition="$remind eq 0">
+                                            <else />({{$remind}})
+                                        </if><span class="grid_list_num"></span></a></li>
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)">新听众</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="bd-container ">
+        <div class="frame-nav-wrap">
+            <div id="frameFixedNav" class="frame-nav-fixed-wraper" style="top: 50px;">
+                <div class="frame-nav-inner">
+                    <ul class="fd-nav-list clearfix">
+                        <li class="fd-nav-item fd-nav-cur-item"><a href="javascript:void(0)">好友列表</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">查找好友</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">可能认识的人</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Friendask/index')}}">好友请求</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">好友分组</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <style>.pns .pn {
+            margin: 0px;
+            padding: 0px 12px;
+        }</style>
+        <div id="pt" class="bm cl"></div>
+
+        <style id="diy_style" type="text/css"></style>
+        <div class="wp">
+            <!--[diy=diy1]-->
+            <div id="diy1" class="area"></div><!--[/diy]-->
+        </div>
+        <div id="ct" class="ct2_a wp cl">
+            <ul class="tb cl">
+                <li class="a"><a href="javascript:void(0)">全部好友列表</a></li>
+                <li><a href="javascript:void(0)">当前在线的好友</a></li>
+                <li><a href="javascript:void(0)">在线成员</a></li>
+                <li><a href="javascript:void(0)">就在我附近的朋友</a></li>
+                <li><a href="javascript:void(0)">我的访客</a></li>
+                <li><a href="javascript:void(0)">我的足迹</a></li>
+                <li><a href="javascript:void(0)">我的黑名单</a></li>
+            </ul>
+            <div class="mn">
+                <!--[diy=diycontenttop]-->
+                <div id="diycontenttop" class="area"></div><!--[/diy]-->
+                <div class="bm bw0">
+                    <h1 class="mt"><img alt="friend" src="__PUBLIC__/home/resources/friend.gif" class="vm"> 好友列表</h1>
+                    <div class="tbmu cl">
+                        <p class="y">
+                            当前共有<span class="xw1">{{$count}}</span> 个好友
+                        </p>
+                        <p class="z">
+                            按照<a href="javascript:void(0)" class="xw1" onmouseover="showTip(this)" tip="好友热度是系统根据您与好友之间交互的动作自动累计的一个参考值，数值越大，表示您与这位好友互动越频繁">好友热度</a>排序
+                        </p>
+                    </div>
+
+                    <div class="cl" style="padding-right: 263px;">
+                        <div style="float: right; margin-right: -263px; width: 263px; display: inline;">
+                            <div class="bm mtm">
+                                <div class="bm_h cl">
+                                    <a href="javascript:void(0)" onclick="update_group()" class="y xi2">添加分组</a>
+                                    <h3>好友分组</h3>
+                                </div>
+                                <div class="bm_c">
+                                    <ul class="buddy_group">
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="changeSearch()">全部好友</a>
+                                        </li>
+                                        <volist name="list" id="fg">
+                                        <li>
+                                            <a href="javascript:void(0)" id="c_ignore_1" onclick="del_group('{{$fg.id}}','{{$fg.name}}')" title="删除分组" class="b">屏蔽</a>
+                                            <a href="javascript:void(0)" id="c_edit_1" onclick="edit_group('{{$fg.id}}','{{$fg.name}}')" title="编辑用户组名" class="o">编辑</a>
+                                            <a href="javascript:void(0)" onclick="changeSearch('{{$fg.id}}')" id="{{$fg.id}}" groupname="{{$fg.name}}">{{$fg.name}}</a>
+                                        </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                function del_group(a,n){
+                                    layer.confirm('确认删除?', {icon: 0, title:'好友分组：'+n}, function(index){
+                                        layer.close(index);
+                                        $.ajax({
+                                            url:"{{:U('/Home/Friendlist/del_group')}}",
+                                            type:'post',
+                                            data:{
+                                                id:a
+                                            },
+                                            success:function($data){
+                                                if($data == 1){
+                                                    layer.msg('删除成功');
+                                                    window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                                }else{
+                                                    layer.msg('删除失败');
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
+                                function update_group() {
+                                    layer.prompt({title: '请输入您的用户组名',formType: 0}, function(text, index){
+                                        layer.close(index);
+                                        if (text) {
+                                            $.ajax({
+                                                url: "{{:U('/Home/Friendlist/update')}}",
+                                                type:'post',
+                                                data: {
+                                                    'name': text
+                                                },
+                                                success:function($data){
+                                                    if($data == 1){
+                                                        layer.msg('该组名已存在');
+                                                    }else{
+                                                        layer.msg('添加成功');
+                                                        window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                function edit_group(group_id,group_name) {
+                                    layer.prompt({title: '请输入您的用户组名',value:group_name,formType: 0}, function(text, index){
+                                        layer.close(index);
+                                        if (text) {
+                                            $.ajax({
+                                                url: "{{:U('/Home/Friendlist/edit')}}",
+                                                type:'post',
+                                                data: {
+                                                    'name': text,
+                                                    'id': group_id
+                                                },
+                                                success:function($data){
+                                                    if($data == 1){
+                                                        layer.msg('该组名已存在');
+                                                    }else{
+                                                        layer.msg('修改成功');
+                                                        window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                function changeSearch(obj){
+                                        var fg_id = obj;
+                                        $.ajax({
+                                            type : 'post',
+                                            url : "{{:U('/Home/Friendlist/friendSelect')}}",
+                                            data : {
+                                                'fg_id' : fg_id
+                                            },
+                                            success : function($data) {
+                                                $('#friend_ul').html($data);
+                                            }
+                                        });
+                                }
+
+                                function goSearch(url) {
+                                    $.ajax({
+                                        type : 'get',
+                                        url : url,
+                                        success : function($data) {
+                                            $('#friend_ul').html($data);
+                                        }
+                                    });
+                                }
+                            </script>
+                        </div>
+                        <div>
+                            <!--Ajax替换start-->
+                            <div id="friend_ul">
+                                <ul class="buddy cl">
+                                    <volist name="list" id="user1">
+                                    <volist name="user1.FriendInfo" id="user2" key="k">
+                                    <li id="a_followmod_{{$user2.id}}">
+                                        <div class="avt">
+                                            <a href="{{:U('Homepage/index',array('u_id'=>$user2['id']))}}" c="1" mid="card_6760">
+                                                <img src="__PUBLIC__/upload/{{$user2.head_image}}">
+                                            </a>
+                                        </div>
+                                        <h4>
+                                            <span class="xg1 xw0 y">
+                                                <a href="javascript:void(0)">热度(0)</a>
+                                            </span>
+                                            <a href="javascript:void(0);">{{$user2.name}}</a>
+                                        </h4>
+                                        <p class="maxh"></p>
+                                        <div class="xg1">
+                                            <a href="javascript:void(0)" onclick="">发送消息</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:void(0);" onclick="change_group('{{$user2.id}}')">好友分组</a>
+                                            <span class="pipe">|</span>
+                                            <a href="javascript:void(0);" onclick="del_friend('{{$user2.id}}','{{$user2.name}}')">删除</a>
+                                        </div>
+                                    </li>
+                                    </volist>
+                                    </volist>
+                                </ul>
+                            </div>
+                            <style>
+                                #group_post{
+                                    position: fixed;
+                                    left:50%;
+                                    top:30%;
+                                    width:200px;
+                                    background-color: rgba(19, 32, 29, 0.52);
+                                    color:#fff;
+                                    font-size: 20px;
+                                    display: none;
+                                }
+                                #group_post select{
+                                    margin-top: 20px;
+                                    margin-left: 25px;
+                                }
+                                #group_post button{
+                                    margin-left: 25px;
+                                    margin-bottom: 20px;
+                                    margin-top: 20px;
+                                }
+                            </style>
+                            <div id="group_post">
+                                <span id="ss"></span>
+                                <select name="select" id="select_group">
+                                    <volist name="list" id="fg">
+                                    <option value="{{$fg.name}}">{{$fg.name}}</option>
+                                    </volist>
+                                </select><br>
+                                <button onclick="queren()">确认</button>
+                                <button onclick="quxiao()">取消</button>
+                            </div>
+                            <!--Ajax替换end-->
+                            <script type="text/javascript">
+                                function change_group(id){
+                                    $('#group_post').css('display','block');
+                                    $('#ss').val(id);
+                                }
+                                function queren(){
+                                    var id = $('#ss').val();
+                                    var group = $('#select_group').val();
+                                    $.ajax({
+                                        url:"{{:U('/Home/Friendlist/change_group')}}",
+                                        type:'post',
+                                        data:{
+                                            group:group,
+                                            id:id
+                                        },
+                                        success:function($data){
+                                            if($data == 1){
+                                                layer.msg('移动成功');
+                                                $('#group_post').css('display','none');
+                                                window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                            }
+                                        }
+                                    });
+                                }
+                                function quxiao(){
+                                    $('#group_post').css('display','none');
+                                }
+                                function del_friend(id,name){
+                                    layer.confirm('确认删除?', {icon: 0, title:'好友：'+name}, function(index){
+                                        layer.close(index);
+                                        $.ajax({
+                                            url:"{{:U('/Home/Friendlist/del_friend')}}",
+                                            type:'post',
+                                            data:{
+                                                id:id
+                                            },
+                                            success:function($data){
+                                                if($data == 1){
+                                                    layer.msg('删除成功');
+                                                    window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                                }else{
+                                                    layer.msg('删除失败');
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <!--[diy=diycontentbottom]-->
+                <div id="diycontentbottom" class="area"></div><!--[/diy]-->
+            </div>
+
+
+        </div>
+
+        <div class="wp mtn">
+            <!--[diy=diy3]-->
+            <div id="diy3" class="area"></div><!--[/diy]-->
+        </div>
+        <!--底部-->
+        <block name="include"><include file="Boot:index" /></block>
+        <!--底部-->
+    </div>
+
+    <div id="ft" class="wp cl"></div>
+    <div id="scrolltop" style="left: 1164px; visibility: hidden;">
+        <span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo(&#39;0&#39;,&#39;0&#39;)" class="scrolltopa"><b>返回顶部</b></a></span>
+    </div>
+    <script type="text/javascript">_attachEvent(window, 'scroll', function () {
+        showTopLink();
+    });
+    checkBlind();</script>
+    <div id="discuz_tips" style="display:none;"></div>
+    <script src="__PUBLIC__/js/discuz_tips.js" type="text/javascript"
+            charset="UTF-8"></script>
+</div>
+
+
+</body>
+</html>

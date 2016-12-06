@@ -1,0 +1,39 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 积分详情</strong></div>
+    <div class="padding border-bottom">
+        <a href="javascript:void(0)" onclick="history.go(-1)" class="button border-blue"><span class="icon-mail-reply (alias)"></span> 返回</a>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="120">ID</th>
+        <th>用户名</th>
+        <th>积分收支</th>
+        <th width="25%">收支原因</th>
+         <th width="120">时间</th>
+      </tr>
+
+      <volist name="list" id="data" key="k">
+        <tr>
+          <td>{{$data.id}}</td>
+          <td>{{$data.name}}</td>
+           <td>{{$data.integral}}</td>
+          <td>
+            <if condition="$data.way eq 0">
+                登录加成
+            <elseif condition="$data.way eq 1"/>
+                发表文章
+            <elseif condition="$data.way eq 2"/>
+                评论文章
+            <elseif condition="$data.way eq 3"/>
+                {{$data.reason}}
+            </if>
+          </td>
+          <td>{{$data.time|date='Y-m-d',###}}</td>
+        </tr>
+      </volist>
+    </table>
+  </div>
+</block>

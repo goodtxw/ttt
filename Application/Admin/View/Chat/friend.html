@@ -1,0 +1,90 @@
+<extend name="layouts/layout"/>
+
+<block name="content">
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder"> {{$user.name}}的聊天好友</strong></div>
+
+        <div class="padding border-bottom">
+            <ul class="search" style="padding-left:10px;">
+                <li>
+                    <input type="text" placeholder="请输入要搜索的用户 id" id="s-user-id" class="input" style="width:200px; line-height:17px;display:inline-block" />
+                    <a href="javascript:void(0)" class="button border-main icon-search" onclick="changeSearch('{{$user.id}}')" > 搜索</a>
+                    <a href="javascript:void(0)" class="button bg-main icon-check-square-o mr" onclick="fanhui()">返回</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="t">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th width="10%">ID</th>
+                    <th>用户名</th>
+                    <th>用户ID</th>
+                    <th width="250">操作</th>
+                </tr>
+
+                <volist name="list" id="data" key="k">
+                    <tr id="tr{{$data['id']}}">
+                        <td>{{$data.id}}</td>
+                        <td>{{$data.User.name}}</td>
+                        <td>{{$data.User.id}}</td>
+                        <td>
+                            <div class="button-group">
+                                <a type="button" class="button border-main" href="{{:U('Admin/Chat/detail',array('u_from_id'=>$user['id'],'u_to_id'=>$data['u_to_id'],'u_from_name'=>$user['name'],'u_to_name'=>$data['name']))}}"><span class="icon-edit"></span>聊天详情</a>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+
+                <!--分页部分-->
+                <tr>
+                    <td colspan="8">
+                        <div class="pagelist">{{$page}}</div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        // 搜索
+        function changeSearch(u_from_id) {
+            var u_id = $('#s-user-id').val();
+
+            // 判断输入的id是否时整数且大于0
+            if (u_id.trim() != '' && !(/^([\d+]?)+$/.test(u_id) && u_id > 0)) {
+                layer.alert('用户的id必须是大于0 的整数');
+                return;
+            }
+
+            if (u_id.trim() != '') {
+                $.ajax({
+                    type : 'post',
+                    url : "{{:U('/Admin/Chat/chatSearch')}}",
+                    data : {
+                        'u_to_id' : u_id,
+                        'id':u_from_id
+                    },
+                    success : function($data) {
+                        $('#t').html($data);
+                    }
+                });
+            }
+        }
+        function goSearch(url) {
+            $.ajax({
+                type : 'get',
+                url : url,
+                success : function($data) {
+                    $('#t').html($data);
+                }
+            });
+        }
+        function fanhui(){
+            window.history.go(-1);
+        }
+    </script>
+</block>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>我的相册</title>
+    <link href="__PUBLIC__/bs/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/style_4_home_spacecp.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/home.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/register-guide-v7.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/page_upgrade-all-min.css">
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/webuploader.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/diyUpload.css">-->
+    <link href="__PUBLIC__/home/fileupload/css/fileinput.css" medial="all" rel="stylesheet">
+    <style type="text/css">
+        .xiangce{
+            margin-left: 100px;
+            padding-bottom: 20px;
+        }
+        .xiangce img{
+            margin-bottom:30px;
+            margin-right: 5px;
+            border:2px solid rgba(24, 17, 25, 0.52);
+        }
+        .xiangce img:hover{
+            cursor:pointer;
+        }
+        .xiangce-head{
+            padding:20px 20px 20px 20px;
+        }
+        #box{
+            /*display: none;*/
+            margin:50px auto;
+            width:80%;
+            min-height:400px;
+            background-image:url(__PUBLIC__/home/resources/bg.jpg);
+        }
+        .quxiao{
+           width:25px;
+            margin-left: 100px;
+        }
+        #shangchuan{display: none;}
+    </style>
+    <script src="__PUBLIC__/home/js/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/home/fileupload/js/fileinput.js"></script>
+    <script src="__PUBLIC__/home/fileupload/js/locales/zh.js"></script>
+    <script src="__PUBLIC__/bs/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/layer/layer.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__PUBLIC__/home/js/webuploader.html5only.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/home/js/diyUpload.js"></script>
+</head>
+
+<body class="nx-main980">
+<div id="fixedLayer"></div>
+
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<!--<div id="nxContainer" class="nx-container">-->
+<div id="nxContainer" class="nx-container nx-webpager-fold nx-freeViewport">
+    <div class="nx-main">
+        <div id="nxHeader" class="hd-wraper ">
+            <div class="hd-fixed-wraper cl" style="height:50px;">
+                <div class="hd-main">
+                    <h1 class="hd-logo"><a href="{{:U('Index/index')}}" title=""><img src="__PUBLIC__/home/resources/logo_new.png" height="50px" style="top:0;"></a></h1>
+                    <div class="hd-nav cl" style="opacity: 1; display: block;">
+                        <div class="hd-search">
+                            <form id="scbar_form" method="post" autocomplete="off" onsubmit="" action="" target="_blank">
+                                <input type="text" style="height:30px;" class="hd-search-input" autocomplete="off" placeholder="请输入搜索内容">
+                                <button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="hd-search-btn" value="true"></button>
+                            </form>
+                        </div>
+                        <dl class="hd-account cl">
+                            <dt>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}">
+                                    <img src="__PUBLIC__/upload/{{$info.head_image}}" class="hd-avatar" width="30" height="30" alt="balabala">
+                                </a>
+                            </dt>
+                            <dd><a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" title="balabala" class="hd-name">{{$info.name}}</a>
+                                <a href="{{:U('Homepage/index',array('u_id'=>session('id')))}}" target="_blank" class="hd-logindays">{{$date}}天</a>
+                            </dd>
+                        </dl>
+                        <style type="text/css">
+                            .ttt li a{
+                                padding:0;
+                                height:40px;
+                                line-height: 40px;
+                                padding-left: 30px;
+                            }
+                        </style>
+                        <div class="hd-account-action">
+                            <a href="#" class="account-more" style="height: 25px;line-height: 25px;">
+                                <span class="ui-icon ui-icon-setting"></span>
+                            </a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl ttt">
+                                    <li class="nv-drop-privacy "><a href="{{:U('Head/index')}}">修改头像</a></li>
+                                    <li class="nv-drop-setting"><a href="{{:U('Personaldata/index')}}">个人设置</a></li>
+                                    <li class="nv-drop-pay"><a href="javascript:void(0)">隐私筛选</a></li>
+                                    <li class="nv-account-sline"></li>
+                                    <li class="nv-drop-guide"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                                    <li class="nv-drop-exit"><a href="{{:U('Login/logout')}}">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="hd-account-action hd-account-action-vip">
+                            <a href="#" class="account-more" style="height: 25px;line-height: 25px;"><span><img src="__PUBLIC__/home/resources/u_pm.png"></span>
+                                <if condition="$remind eq 0">
+                                    <else /><span class="pm_n">{{$remind}}</span>
+                                </if>
+                            </a>
+                            <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                                <ul class="nv-account-ctrl cl ttt">
+                                    <li class="nv-drop-skin"><a href="javascript:void(0)"><span class="grid_list_num"></span>消息</a></li>
+                                    <li class="nv-drop-skin"><a href="{{:U('Friendask/index')}}">提醒
+                                        <if condition="$remind eq 0">
+                                            <else />({{$remind}})
+                                        </if><span class="grid_list_num"></span></a></li>
+                                    <li class="nv-drop-skin"><a href="#">新听众</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bd-container ">
+        <div class="frame-nav-wrap">
+            <div id="frameFixedNav" class="frame-nav-fixed-wraper" style="top: 50px;">
+                <div class="frame-nav-inner">
+                    <ul class="fd-nav-list clearfix">
+
+                        <li class="fd-nav-item"><a href="{{:U('Head/index')}}">修改头像</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Personaldata/index')}}">个人资料</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">积分</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">用户组</a></li>
+                        <li class="fd-nav-item"><a href="javascript:void(0)">隐私筛选</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Password/index')}}">密码安全</a></li>
+                        <li class="fd-nav-item"><a href="{{:U('Friendlist/index')}}">我的好友</a></li>
+                        <li class="fd-nav-item fd-nav-cur-item"><a href="javascript:void(0)">我的相册</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="ct" class="ct2_a wp cl">
+            <div class="xiangce-head">
+                {{$album.name}}　
+                <a href="{{:U('Album/index')}}">返回相册</a>
+                <div class="hd-account-action hd-account-action-vip">
+                    <b class="account-more" style="height:27px;line-height:27px;padding-bottom: 5px;"><span>编辑</span></b>
+                    <div class="nx-drop-box nx-simple-drop nx-account-drop">
+                        <ul class="nv-account-ctrl cl ttt">
+                            <li class="nv-drop-skin"><a href="javascript:void(0)" onclick="change_album('{{$album.id}}')">修改相册名</a></li>
+                            <li class="nv-drop-skin"><a href="javascript:void(0)">批量操作</a></li>
+                            <li class="nv-drop-skin"><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">上传图片</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <style type="text/css">
+                .ttt li a{
+                    padding:0;
+                    height:40px;
+                    line-height: 40px;
+                    padding-left: 30px;
+                }
+            </style>
+
+            <!--上传图片-->
+
+            <style>
+                .file-drop-zone{
+                    height: 400px;
+                    overflow-y:scroll;
+                }
+                div.file-drop-zone::-webkit-scrollbar {
+                    background: transparent;
+                }
+                .file-drop-zone-title{
+                    margin-top: 70px;
+                    font-size: 50px;
+                }
+                .ttt-modal-body .ttt-modal-text{
+                    font-size: 50px;
+                    text-align: center;
+                    height: 500px;
+                    line-height: 500px;
+                }
+                #up-modal-footer {
+                    display: none;
+                }
+            </style>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width: 960px;height: 620px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">选择图片上传</h4>
+                        </div>
+                        <div class="modal-body ttt-modal-body">
+                            <input id="ttt_input" class="file" name="file" type="file" multiple >
+                        </div>
+                        <div class="modal-footer" id="up-modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.reload()">完成</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+
+                var suc = sc = new Array();
+                var num = 0;
+                $("#ttt_input").fileinput({
+                    showRemove : false,
+                    language : 'zh',
+                    allowedPreviewTypes : [ 'image' ],
+                    allowedFileExtensions : [ 'jpg', 'png', 'gif' ],
+                    maxFileSize : 10240,
+                    previewFileType:'any',
+                    previewFileIcon : '',
+                    uploadUrl : "{{:U('/Home/Upload/uploadImg')}}",
+                    uploadExtraData:{
+                        album_id : "{{$album.id}}"
+                    },
+                    browseClass: "btn btn-primary",
+                    showCaption: false,
+                    enctype: 'multipart/form-data',
+                    'fileActionSettings' : {
+                        showZoom: false,
+                        showUpload: false,
+                    },
+                });
+                // 选择图片预览时
+                $('#ttt_input').on('fileloaded', function(event, file, previewId, index, reader) {
+                    // 上传图片的总量
+                    num = parseInt(previewId.split('-').pop())+1;
+                });
+                // 隐藏清空input
+                $('.fileinput-remove').hide();
+                // 上传成功后
+                $('#ttt_input').on('fileuploaded', function(event, data, previewId, index) {
+                    // 图片上传成功后,将图片名保存到数组
+                    if (data.response['code'] == 1) {
+                        sc[sc.length] = suc[suc.length] = data.response['content']['file']['savename'];
+                    }
+                    if(suc.length>0 && (parseInt(previewId.split('-').pop())+1) == num){
+                        // 存放图像html代码
+                        var ima = new Array();
+                        // 删除
+                        var dele = new Array();
+                        var j=0;
+                        for (var m in suc){
+                            if (suc[m]) {
+                                ima[j] = "<img src='/php/TP_Social/Public/upload/" + suc[m] + "' width='256px' class='file-preview-image' />";
+                                dele[j] = {
+                                    url: "{{:U('/Home/Upload/deleteImg')}}",
+                                    showZoom: false,
+                                    caption: '上传成功',
+                                    key: m,
+                                    extra: {name: suc[m]}
+                                };
+                            }
+                            j++;
+                        }
+                        $('#ttt_input').fileinput('clear');
+                        // 刷新视图
+                        $('#ttt_input').fileinput('refresh',{
+                            initialPreview : ima,
+                            initialPreviewConfig:dele,
+                        }).fileinput('enable');
+                        $('.btn-file').hide();
+                        // 隐藏清空input
+                        $('.fileinput-remove').hide();
+                        $('#up-modal-footer').toggle();
+                        $('#e_image').toggle();
+                        $('#ttt-ui-button-c6').toggle();
+                    }
+                });
+                $('#ttt_input').on('filedeleted', function(event, key) {
+                    num--;
+                    sc[key] = 2;
+                    if (num == 0){
+                        $('#ttt_input').fileinput('disable');
+                        $('.ttt-modal-body').html('<div class="ttt-modal-text">请刷新页面重新上传</div>');
+                    }
+                });
+            </script>
+            <!--上传图片结束-->
+            <script>
+
+                $('#test').diyUpload({
+                    url:'server/fileupload.php',
+                    success:function( data ) {
+                        console.info( data );
+                    },
+                    error:function( err ) {
+                        console.info( err );
+                    }
+                });
+                //弹出一个输入框，输入一段文字，可以提交
+                function change_album(album_id) {
+                    layer.prompt({title: '请输入您的相册名',value: "{{$album.name}}",formType: 0}, function(text, index){
+                        layer.close(index);
+                        if (text) {
+                            $.ajax({
+                                url: "{{:U('/Home/Album/edit')}}",
+                                type:'post',
+                                data: {
+                                    'name': text,
+                                    'id': album_id
+                                },
+                                success:function($data){
+                                    if($data == 1){
+                                        layer.msg('该相册名已存在');
+                                    }else{
+                                        layer.msg('修改成功');
+                                        window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            </script>
+            <div id="layer-photos-demo" class="layer-photos-demo xiangce">
+                <volist name="image" id="vo">
+                    <if condition="count($vo['name']) eq 0">暂无图片
+                    <else />
+                        <img onmouseover="showbutton('button{{$vo.id}}')" onmouseout="hidebutton('button{{$vo.id}}')" id="{{$vo.id}}" layer-src="__PUBLIC__/upload/{{$vo.name}}" width="225px" height="150px" src="__PUBLIC__/upload/{{$vo.name}}">
+                        <button onmouseover="showbutton2('button{{$vo.id}}','{{$vo.id}}','{{$vo.name}}')" onmouseout="hidebutton2('button{{$vo.id}}')" class="button{{$vo.id}}" style="position:relative;top:-79px; left:-34px; z-index:-2" >X</button>
+                    </if>
+                </volist>
+            </div>
+            <div class="appl">
+            </div>
+        </div>
+        <!--底部start-->
+        <block name="include"><include file="Boot:index" /></block>
+        <!--底部end-->
+    </div>
+    <script>
+        function showbutton(obj) {
+            $('.'+obj).css('z-index','8');
+        }
+        function showbutton2(obj,m,n) {
+            $('.'+obj).css('z-index','8').click(function(){
+                layer.confirm('确认删除?', {icon: 0, title:n}, function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url:"{{:U('/Home/Album/del_image')}}",
+                        type:'post',
+                        data:{
+                            id:m
+                        }
+                    });
+                    layer.msg('删除成功');
+                    window.setTimeout("window.location.reload()",1000);//延时一秒重新加载
+                });
+            });
+        }
+        function hidebutton(obj){
+            $('.'+obj).css('z-index','-2');
+        }
+        function hidebutton2(obj){
+            $('.'+obj).css('z-index','-2');
+        }
+
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            layer.photos({
+                photos: '#layer-photos-demo',
+                anim: 3 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });
+        });
+    </script>
+    <div class="focus plugin" id="ip_notice"></div>
+    <!--<script type="text/javascript">ipNotice();</script>-->
+    <!--<script type="text/javascript">_attachEvent(window, 'scroll', function () {-->
+        <!--showTopLink();-->
+    <!--});-->
+    <!--checkBlind();</script>-->
+    <!--<script src="__PUBLIC__/home/js/discuz_tips.js" type="text/javascript"-->
+            <!--charset="UTF-8"></script>-->
+</div>
+</body>
+</html>

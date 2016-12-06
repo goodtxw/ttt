@@ -1,0 +1,22 @@
+<table class="table table-hover text-center">
+    <tr>
+        <th width="5%">ID</th>
+        <th>用户名</th>
+        <th>积分</th>
+        <th width="250">操作</th>
+    </tr>
+
+    <volist name="list" id="data" key="k">
+        <tr id="tr{{$data['id']}}">
+            <td>{{$data.u_id}}</td>
+            <td>{{$data.name}}</td>
+            <td>{{$data.suminte}}</td>
+            <td>
+                <div class="button-group">
+                    <a type="button" class="button border-main" href="{{:U('Admin/Integral/list/id/'.$data['u_id'])}}"><span class="icon-edit"></span>详情</a>
+                    <a class="button border-red" href="javascript:void(0)" onclick="cInte('{{$data[\'u_id\']}}')"><span class="icon-trash-o"></span> 修改</a>
+                </div>
+            </td>
+        </tr>
+    </volist>
+</table>

@@ -1,0 +1,73 @@
+<extend name="layouts/layout"/>
+
+<block name="css">
+    <style type="text/css">
+        body {
+            background-color:#f2f9fd;
+        }
+    </style>
+</block>
+
+<block name="content">
+<div class="header bg-main">
+    <div class="logo margin-big-left fadein-top">
+        <h1><img src="__PUBLIC__/admin/images/y.jpg" class="radius-circle rotate-hover" height="50"/>
+            <span style="font-size: 15px;font-weight: bold";>&nbsp;{{$data1}}</span>
+        </h1>
+    </div>
+  <div class="head-l" style="float: right">
+      <a class="button button-little bg-green" href="{{:U('Home/Login/login')}}" target="_blank"><span class="icon-home"></span> 前台登录页</a> &nbsp;&nbsp;
+          <a class="button button-little bg-red " href="{{:U('Login/logout')}}"><span class="icon-power-off"></span> 退出登录</a>
+  </div>
+</div>
+<div class="leftnav">
+  <div class="leftnav-title">
+      <strong><span class="icon-list"></span>菜单列表</strong>
+  </div>
+  <h2><span class="icon-user"></span>用户管理</h2>
+      <ul style="display:block">
+        <li><a href="{{:U('User/index')}}" target="right"><span class="icon-caret-right"></span>前台用户</a></li>
+        <li><a href="{{:U('Admin/index')}}" target="right"><span class="icon-caret-right"></span>后台用户</a></li>
+      </ul>
+  <h2><span class="icon-align-justify"></span>模块管理</h2>
+    <ul>
+        <li><a href="{{:U('Album/index')}}" target="right"><span class="icon-caret-right"></span>相册管理</a></li>
+        <li><a href="{{:U('Integral/index')}}" target="right"><span class="icon-caret-right"></span>积分管理</a></li>
+        <li><a href="{{:U('Comment/index')}}" target="right"><span class="icon-caret-right"></span>评论管理</a></li>
+        <li><a href="{{:U('Chat/index')}}" target="right"><span class="icon-caret-right"></span>聊天管理</a></li>
+        <li><a href="{{:U('Article/index')}}" target="right"><span class="icon-caret-right"></span>文章管理</a></li>
+    </ul>
+  <h2><span class="icon-pencil-square-o"></span>其它管理</h2>
+  <ul>
+      <li><a href="{{:U('Password/index')}}" target="right"><span class="icon-caret-right"></span>修改密码</a></li>
+      <li><a href="{{:U('Link/index')}}" target="right"><span class="icon-caret-right"></span>链接管理</a></li>
+  </ul>
+</div>
+
+<ul class="bread">
+  <li><a href="{{:U('User/index')}}" target="right" class="icon-home"> 首页</a></li>
+  <li><a href="##" id="a_leader_txt">用户管理</a></li>
+</ul>
+<div class="admin">
+  <iframe scrolling="auto" rameborder="0" src="{{:U('User/index')}}" name="right" width="100%" height="100%"></iframe>
+</div>
+<div style="text-align:center;">
+<p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $(function(){
+            $(".leftnav h2").click(function(){
+                $(this).next().slideToggle(200);
+                $(this).toggleClass("on");
+            })
+            $(".leftnav ul li a").click(function(){
+                $("#a_leader_txt").text($(this).text());
+                $(".leftnav ul li a").removeClass("on");
+                $(this).addClass("on");
+            })
+        });
+    </script>
+</block>

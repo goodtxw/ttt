@@ -1,0 +1,27 @@
+<ul class="buddy cl">
+    <volist name="list" id="user1">
+        <volist name="user1.FriendInfo" id="user2">
+            <li id="a_followmod_{{$user2.id}}">
+                <div class="avt">
+                    <a href="{{:U('Homepage/index',array('u_id'=>$user2['id']))}}" c="1" mid="card_6760">
+                        <img src="__PUBLIC__/upload/{{$user2.head_image}}">
+                    </a>
+                </div>
+                <h4>
+                    <span class="xg1 xw0 y">
+                        <a href="javascript:void(0);">热度(0)</a>
+                    </span>
+                    <a href="javascript:void(0);">{{$user2.name}}</a>
+                </h4>
+                <p class="maxh"></p>
+                <div class="xg1">
+                    <a href="javascript:void(0);" onclick="">发送消息</a>
+                    <span class="pipe">|</span>
+                    <a href="javascript:void(0);" onclick="change_group('{{$user2.id}}')">好友分组</a>
+                    <span class="pipe">|</span>
+                    <a href="javascript:void(0);" onclick="del_friend('{{$user2.id}}','{{$user2.name}}')">删除</a>
+                </div>
+            </li>
+        </volist>
+    </volist>
+</ul>

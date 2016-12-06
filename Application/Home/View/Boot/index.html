@@ -1,0 +1,54 @@
+<div class="ft-wrapper clearfix">
+    <p>
+        <strong>玩转人人网</strong>
+        <a href="javascript:void(0)">人人网介绍</a>
+        <a href="javascript:void(0)">客服帮助</a>
+    </p>
+    <p>
+        <strong>商务合作</strong>
+        <a href="javascript:void(0)">广告合作</a>
+        <a href="javascript:void(0)">投资人人网</a>
+    </p>
+    <p>
+        <strong>公司信息</strong>
+        <a href="javascript:void(0)">关于我们</a>
+        <a href="javascript:void(0)">联系我们</a>
+        <a href="javascript:void(0)">招聘</a>
+    </p>
+    <p>
+        <strong>友情链接</strong>
+        <if condition="$link[0]['id'] eq ''">
+            <a href="javascript:void(0)">等待添加</a>
+        <else />
+            <a href="http://{{$link.0.url}}" target="_blank">{{$link.0.webname}}</a>
+        </if>
+        <if condition="$link[1]['id'] eq ''">
+            <a href="javascript:void(0)">等待添加</a>
+            <else />
+            <a href="http://{{$link.1.url}}" target="_blank">{{$link.1.webname}}</a>
+        </if>
+        <if condition="$link[2]['id'] eq ''">
+            <a href="javascript:void(0)">等待添加</a>
+            <else />
+            <a href="http://{{$link.2.url}}" target="_blank">{{$link.2.webname}}</a>
+        </if>
+        <if condition="$link[3]['id'] eq ''">
+            <a href="javascript:void(0)">等待添加</a>
+            <else />
+            <a href="http://{{$link.3.url}}" target="_blank">{{$link.3.webname}}</a>
+        </if>
+    </p>
+    <p>
+        <strong>人人移动客户端下载</strong>
+        <a href="javascript:void(0)">iPhone/Android</a>
+        <a href="javascript:void(0)">其他人人产品</a>
+    </p>
+    <p class="copyright-info" style="margi-left: -20px">
+        <span>公司全称：遵义人人网络发展有限公司</span>
+        <span>公司电话：0851-27900600</span>
+        <span>公司地址：贵州省遵义市万里路星力城<br>
+万里湘江小区C6栋1-14-4号</span>
+        <span><a href="javascript:void(0)">黔ICP备14001641号-1</a></span>
+        <span>人人网©2016</span>
+    </p>
+</div>

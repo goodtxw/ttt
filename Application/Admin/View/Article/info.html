@@ -1,0 +1,111 @@
+<extend name="layouts/layout"/>
+<block name="css">
+    <style type="text/css">
+        .xiangce{
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding:0 120px 0 120px;
+            /*text-align: center;*/
+        }
+        .xiangce img{
+            margin-bottom: 15px;
+            margin-right: 15px;
+            border:2px solid rgba(24, 17, 25, 0.52);
+        }
+        .xiangce img:hover{
+            cursor:pointer;
+        }
+    </style>
+</block>
+<block name="content">
+<div class="panel admin-panel">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 文章详情</strong></div>
+    <div class="body-content">
+        <form method="post" class="form-x" action="">
+            <div class="form-group">
+                <div class="label">
+                    <label>作者：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input" name="stitle" value="{{$data.username1}}" />
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>转自：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input" name="stitle" value="{{$data1}}" />
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>状态权限：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input" name="sentitle" value='<if condition="$data.privacy eq 0">公开<elseif condition="$data.privacy eq 1" />好友可见<else />仅自己可见</if>' />
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>内容：</label>
+                </div>
+                <div class="field">
+                    <textarea name="scopyright" class="input" style="height:120px;">{{$data.content}}</textarea>
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>发布时间：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input" name="s_address" value="{{$data.time|date='Y-m-d',###}}" />
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+
+            <div class="panel-head">
+                <strong><span class="icon-pencil-square-o"></span> 图片详情</strong>
+            </div>
+
+            <div id="layer-photos-demo" class="layer-photos-demo xiangce">
+                <volist name="image" id="v">
+                <img layer-pid="" layer-src="__PUBLIC__/upload/{{$v.name}}" width="225px" height="151px" src="__PUBLIC__/upload/{{$v.name}}" alt="{{$v.name}}">
+                </volist>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <button class="button bg-main icon-check-square-o"> 返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</block>
+<block name="script">
+    <script>
+        $('button').click(function(){
+            window.history.go(-1);
+        });
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            layer.photos({
+                photos: '#layer-photos-demo',
+                anim: 3 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });
+        });
+    </script>
+</block>
+

@@ -1,0 +1,40 @@
+<table class="table table-hover text-center">
+    <tr>
+        <th width="10%" style="text-align:left; padding-left:20px;">ID</th>
+        <th width="20%">用户名</th>
+        <th width="20%">用户状态</th>
+        <th width="20%">权限</th>
+        <th width="20%">操作</th>
+    </tr>
+    <volist name="list" id="vo">
+        <tr>
+            <td style="text-align:left; padding-left:20px;">{{$vo.id}}</td>
+            <td>{{$vo.name}}</td>
+            <td>
+                <if condition="$vo.status eq '0'">启用
+                    <else />禁用
+                </if>
+            </td>
+            <td>
+                <if condition="$vo.level eq '0'">普通管理员
+                    <else />超级管理员
+                </if>
+            </td>
+            <td>
+                <div class="button-group">
+                    <a class="button border-red" href="{{:U('ban',array('id'=>$vo['id']))}}"><span class="icon-ban"></span>
+                        <if condition="$vo.status eq '0'">封禁
+                            <else />解封
+                        </if>
+                    </a>
+                    <a class="button border-red" href="{{:U('delete',array('id'=>$vo['id']))}}"><span class="icon-trash-o"></span> 删除</a>
+                </div>
+            </td>
+        </tr>
+    </volist>
+    <tr>
+        <td colspan="8">
+            <div class="pagelist">{{$page}}</div>
+        </td>
+    </tr>
+</table>

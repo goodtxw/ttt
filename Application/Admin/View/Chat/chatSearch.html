@@ -1,0 +1,29 @@
+<table class="table table-hover text-center">
+    <tr>
+        <th width="10%">ID</th>
+        <th>用户名</th>
+        <th>用户ID</th>
+        <th width="250">操作</th>
+    </tr>
+
+    <volist name="list" id="data" key="k">
+        <tr id="tr{{$data['id']}}">
+            <td>{{$data.id}}</td>
+            <td>{{$data.name}}</td>
+            <td>{{$data.u_to_id}}</td>
+            <td>
+                <div class="button-group">
+                    <a type="button" class="button border-main" href="{{:U('Admin/Chat/detail',array('u_from_id'=>$user['id'],'u_to_id'=>$data['u_to_id'],'u_from_name'=>$user['name'],'u_to_name'=>$data['name']))}}"><span class="icon-edit"></span>聊天详情</a>
+                </div>
+            </td>
+        </tr>
+    </volist>
+
+    <!--分页部分-->
+    <tr>
+        <td colspan="8">
+            <div class="pagelist">{{$page}}</div>
+        </td>
+    </tr>
+
+</table>
